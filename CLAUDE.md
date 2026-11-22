@@ -66,6 +66,10 @@ unless the user's prompt explicitly starts Phase 1.
 - Room statistics are derived from sessions and membership history, never stored as
   counters. Never show a sum across rooms. (ADR-0005)
 - Room members see only time data, never courses or tasks. Enforced in the database. (ADR-0006)
+- Tables that room members can read hold only user and time data; course, task and other
+  private links live in separate owner-only tables. Views use `security_invoker = true`. (ADR-0016)
+- Heartbeats are stored in a separate per-user table that is not in the Realtime publication. (ADR-0016)
+- Room Presence uses private Realtime channels, authorized by RLS on `realtime.messages`. (ADR-0017)
 - Coins are a ledger; rewards are granted by database functions. (ADR-0008)
 
 ## Final report format

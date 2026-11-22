@@ -7,7 +7,8 @@
 | [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md) | Everything not decided yet. |
 | [decisions/](decisions/) | Architecture Decision Records (ADRs). |
 | [PRODUCT_BRIEF.md](PRODUCT_BRIEF.md) | The original product idea (user context). |
-| [PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md) | Similar apps: findings, inference, what to take and avoid, comparison table. Draft, awaiting review. |
+| [PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md) | Similar apps: findings, inference, what to take and avoid, comparison table. Reviewed. |
+| [TECH_RESEARCH.md](TECH_RESEARCH.md) | Open technical choices before Phase 1, with sources. Reviewed; decisions in ADR-0015 … 0019. |
 | [prompts/](prompts/) | Prompts given to Claude Code, saved per task. |
 | [reports/](reports/) | Claude Code task reports and test results. |
 | [archive/](archive/) | Superseded documents. History only. |
@@ -16,7 +17,6 @@
 
 | Document | Purpose |
 | --- | --- |
-| `TECH_RESEARCH.md` | Library/tool comparisons with sources (i18n, hosting, testing…) |
 | `ARCHITECTURE.md` | System overview diagram, module boundaries, data flow |
 | `DATABASE.md` | Tables, relations, constraints, RLS policies |
 | `SECURITY.md` | Threat list, RLS rules, invite links, rate limits |

@@ -20,3 +20,8 @@ been committed yet may be edited directly. Use [0000-template.md](0000-template.
 | [0012](0012-room-member-limit.md) | Room member limit | Accepted |
 | [0013](0013-room-model-multiple-owners.md) | Room model with multiple owners | Superseded by [0014](0014-room-model-creator-role.md) |
 | [0014](0014-room-model-creator-role.md) | Room model with multiple owners and a creator role | Accepted |
+| [0015](0015-frontend-libraries.md) | Frontend libraries: i18n, router, charts, validation | Accepted |
+| [0016](0016-database-implementation-rules.md) | Database implementation rules: overlap constraint, room-visible data, heartbeat | Accepted |
+| [0017](0017-realtime-private-channels.md) | Realtime: private channels for room Presence | Accepted |
+| [0018](0018-local-development-and-testing.md) | Local development, migrations and testing | Accepted |
+| [0019](0019-react-typescript-vite.md) | React, TypeScript and Vite | Accepted |

@@ -52,11 +52,18 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0012](decisions/0012-room-member-limit.md) | Per-room member limit chosen by the creator, changeable by owners, checked in the DB | Accepted |
 | [0013](decisions/0013-room-model-multiple-owners.md) | Persistent rooms, invite link, membership history, multiple owners | Superseded by 0014 |
 | [0014](decisions/0014-room-model-creator-role.md) | Multiple owners plus one transferable creator role (protection, deletes the room); empty rooms deleted; permission table | Accepted |
+| [0015](decisions/0015-frontend-libraries.md) | i18next + react-i18next; React Router (declarative mode); Recharts; Zod | Accepted |
+| [0016](decisions/0016-database-implementation-rules.md) | Overlap via GiST exclusion + btree_gist; room-visible data in a time-only table; heartbeat table outside Realtime | Accepted |
+| [0017](decisions/0017-realtime-private-channels.md) | Private Realtime channels for room Presence; free plan sufficient | Accepted |
+| [0018](decisions/0018-local-development-and-testing.md) | Supabase CLI + Docker, migrations in git; Vitest, Playwright, pgTAP, supabase-js RLS tests | Accepted |
+| [0019](decisions/0019-react-typescript-vite.md) | React + TypeScript + Vite; client-rendered SPA | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
-React, TypeScript, Vite, Supabase (accepted), Zod, Recharts, Vitest, Playwright,
-TanStack Query (accepted), an i18n library (to be researched).
+Accepted: Supabase (ADR-0001), TanStack Query (ADR-0009), i18next + react-i18next, React
+Router in declarative mode, Recharts, Zod (ADR-0015), Supabase CLI, Vitest, Playwright,
+pgTAP (ADR-0018), React, TypeScript, Vite (ADR-0019).
+Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
 
 ## Phase 0 progress
 
@@ -64,8 +71,8 @@ TanStack Query (accepted), an i18n library (to be researched).
 | --- | --- |
 | Product idea and scope | Done (this document) |
 | Core architecture decisions | Done (ADR-0001 … 0014) |
-| Product research | Draft, awaiting review ([PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md)) |
-| Technical research | Not started |
+| Product research | Reviewed ([PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md)) |
+| Technical research | Reviewed; decisions in ADR-0015 … 0019, hosting deferred ([TECH_RESEARCH.md](TECH_RESEARCH.md)) |
 | Database design | Not started |
 | Security | Not started |
 | Gamification design | Not started |
