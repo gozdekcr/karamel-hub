@@ -13,13 +13,10 @@
 | [SECURITY.md](SECURITY.md) | Threat table, accepted limitations, Phase 1 security checklist. Draft for review. |
 | [UI_UX.md](UI_UX.md) | Layout, screens, flows, empty and error states, visual direction. Draft for review. |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System diagram, layers, main flows, where each value is calculated, decision map. Draft for review. |
+| [ROADMAP.md](ROADMAP.md) | Phases 1–5 with scope, tasks, tests and acceptance criteria; Phase 0 end check. Draft for review. |
 | [TECH_RESEARCH.md](TECH_RESEARCH.md) | Open technical choices before Phase 1, with sources. Reviewed; decisions in ADR-0015 … 0019. |
 | [prompts/](prompts/) | Prompts given to Claude Code, saved per task. |
 | [reports/](reports/) | Claude Code task reports and test results. |
 | [archive/](archive/) | Superseded documents. History only. |
 
-## Planned Phase 0 documents (not written yet)
-
-| Document | Purpose |
-| --- | --- |
-| `ROADMAP.md` | Phases 1+ with scope and acceptance criteria |
+All planned Phase 0 documents exist.

@@ -1,6 +1,6 @@
 # Karamel-hub — current state (single source of truth)
 
-Last updated: 2026-11-22 · Phase 0 (research, architecture, planning) · No application code
+Last updated: 2026-11-23 · **Phase 0 complete** (research, architecture, planning) · Next: Phase 1 ([ROADMAP.md](ROADMAP.md)) · No application code yet
 
 If this document conflicts with another document, this document and the code win.
 Undecided items live in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
@@ -52,6 +52,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Home | Greeting with coin and streak badges; timer card (2 columns, dark caramel `#8E5222`) with goal rings; My rooms, Today's tasks (open + done today), monthly study calendar (4 tones, today framed); achievements strip. |
 | Visual direction | Pastel, low contrast, large rounded cards (26 px), ring charts, personal greeting. Palette from Karamel (UI_UX.md §6.2); fonts Fredoka (headings) and Nunito (body), self-hosted; clickable areas ≥ 44 px; minimum window width 1024 px. Contrast rules, calendar tones, errors (pink + icon), reduced motion and visible focus in UI_UX.md §6. |
 | Gamification later | Four more cats (art in `docs/assets/`), eyes-slot items, outfit slot, cat room, 150-hour and 30-day streak cats. |
+| Phase order | 1 Core → 2 Tracking → 3 Rooms → 4 Karamel → 5 Polish and going live (for the friend group); account deletion and 🚀 public-launch items come later. The user uses the app from Phase 1; Phase 4 includes a one-time backfill of coins and achievements. Tasks in [ROADMAP.md](ROADMAP.md). |
 
 ## Architecture decisions
 
@@ -94,7 +95,7 @@ Router in declarative mode, Recharts, Zod (ADR-0015), Supabase CLI, Vitest, Play
 pgTAP (ADR-0018), React, TypeScript, Vite (ADR-0019).
 Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
 
-## Phase 0 progress
+## Phase 0 progress (complete)
 
 | Area | Status |
 | --- | --- |
@@ -107,4 +108,4 @@ Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
 | Gamification design | Done (ADR-0020 … 0022, ADR-0028, [GAMIFICATION.md](GAMIFICATION.md)); art and placement rules in `docs/assets/`; placement re-implemented and tested in Phase 1 |
 | UI/UX | Decided ([UI_UX.md](UI_UX.md)) |
 | Architecture overview | Done ([ARCHITECTURE.md](ARCHITECTURE.md)); folder structure in ADR-0029 |
-| Roadmap (Phase 1+) | Not started |
+| Roadmap (Phase 1+) | Approved ([ROADMAP.md](ROADMAP.md)) |

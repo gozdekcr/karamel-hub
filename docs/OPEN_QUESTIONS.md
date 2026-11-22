@@ -9,7 +9,6 @@ in ADRs stay valid.
 | 1 | Heartbeat "large gap" threshold (the interval starts at 60 s, ADR-0016) | ADR-0007, ADR-0016 | Needs testing with real usage |
 | 8 | Client-only global state library (if ever needed) | ADR-0009 | None until needed |
 | 9 | Frontend hosting | TECH_RESEARCH §4 | **Deferred until the release stage (user decision).** Research proposal on record: Cloudflare Workers with static assets; alternative Vercel Hobby |
-| 12 | Phase order after Phase 0 | — | Draft: solo core → stats/streak → rooms/realtime → coins/cats → cosmetics. **Account deletion goes to a later phase (user decision, task 007-v2)** |
 | 13 | Upper bound for a room's member limit | ADR-0012, 0006 | Owners choose the limit; what is the maximum allowed value? |
 | 14 | What happens if an owner lowers the limit below the current member count? | ADR-0012 | E.g. refuse the change, or allow it and only block new joins |
 | 15 | Per-user room limit (how many rooms one user can join or own) | ADR-0014, 0006, ADR-0017 | Each room is one Presence channel for the user. Supabase free plan allows 100 channels per connection — a hard ceiling |
@@ -20,6 +19,7 @@ in ADRs stay valid.
 | 41 | Node.js version for development and CI | ADR-0018, ADR-0019 | **To be decided at the start of Phase 1 (user decision).** Must satisfy Vitest (≥ 22.12) and Playwright (22, 24 or 26). Current LTS status not checked |
 | 48 | How does removing a member prevent rejoining: a ban record or a link rotation? | ADR-0014, ADR-0023 | **Deferred (user decision).** No table is designed for it in `DATABASE.md`. Since all members see the link (ADR-0023), rotation alone does not keep a removed user out |
 | 65 | Which later cat uses which unlock rule (10 h, 50 h, 3-day, 7-day longest streak)? | ADR-0020, ADR-0028 | Not needed for the first version (one cat). Later cats: `grey-shorthair`, `orange-white`, `white-longhair`, `grey-white-longhair` |
+| 78 | Where does the app run in Phases 1–4, now that the user uses it from Phase 1 with real data? | ROADMAP.md, #9, ADR-0018 | **Proposed:** Phases 1–2 on the local Supabase stack, used by the user alone; real data is kept (additive migrations, no resets, a backup before each migration); hosting (#9) is decided before Phase 3, because rooms need friends on other computers. Creating a hosted project needs the user's permission |
 
 Resolved: #2 → ADR-0011 (sessions never overlap). #4 → ADR-0012 (room member limit).
 #7, #33, #34 → ADR-0015 (i18next + react-i18next, React Router, Recharts). #16, #35, #37 →
@@ -59,6 +59,8 @@ Pomodoro; streak ring = today's progress to 25 min; palette, Fredoka + Nunito, 2
 accent, links `#7E4818`, accent and pink only as large text, `#6B4F3C` on inactive areas,
 calendar tones with minutes in a tooltip, errors = pink + icon, reduce motion, visible focus.
 #76, #77 → ADR-0029 (Phase 1 folder structure; shared Vitest/pgTAP test cases).
+#12 → ROADMAP.md (task 012: Core → Tracking → Rooms → Karamel → Polish and going live;
+account deletion after Phase 5).
 #29 → CURRENT_STATE "Primary users" (university students studying together remotely).
 #30 → CURRENT_STATE "Primary users" (YKS students removed). The 18+ rule decided then was
 removed later (task 006).

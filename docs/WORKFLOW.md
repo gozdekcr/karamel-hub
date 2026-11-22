@@ -38,10 +38,10 @@
 
 | Phase | Scope | Status |
 | --- | --- | --- |
-| 0 | Research, architecture, database, security, gamification, UI/UX, roadmap (docs only) | In progress |
-| 1+ | Defined in `ROADMAP.md` at the end of Phase 0 | — |
+| 0 | Research, architecture, database, security, gamification, UI/UX, roadmap (docs only) | **Done** (2026-11-23) |
+| 1–5 | Defined in [`ROADMAP.md`](ROADMAP.md) (approved) | Next: Phase 1 |
 
-### Phase 0 order (draft)
+### Phase 0 order (completed)
 
 1. Core architecture decisions — done (ADR-0001 … 0014; later ADRs come from the steps below)
 2. Product research → `PRODUCT_RESEARCH.md`
