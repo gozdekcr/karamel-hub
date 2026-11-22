@@ -35,4 +35,5 @@ constraints. There is no custom API server for now.
 
 ## Open points
 
-- Email verification on sign-up (OPEN_QUESTIONS #6).
+- Email verification on sign-up: resolved by [ADR-0027](0027-security-baseline.md) — off
+  for the friend-group stage, on with custom SMTP before public launch.

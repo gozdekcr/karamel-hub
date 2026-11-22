@@ -46,6 +46,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Room chat | Members see the whole history; messages cannot be edited or deleted. Rooms have a required name. Limits: display name 30, room name 50, message 1,000 characters. |
 | Gamification visibility | Cats, items and coins are visible only to their owner. |
 | Timezone and language | Taken from the browser at sign-up; past days use the current timezone. |
+| Email verification | Off for the friend-group stage; turned on with custom SMTP before public launch. |
 | Gamification later | Outfit slot, cat room, 150-hour and 30-day streak cats. |
 
 ## Architecture decisions
@@ -78,6 +79,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0024](decisions/0024-gamification-catalog-in-database.md) | Catalog in database tables loaded by migrations; reward calculations only in SQL (except `minutes ÷ 2` and shared time, tested in both) | Accepted |
 | [0025](decisions/0025-study-goals.md) | `profiles` = display name only; goals, timezone, language in owner-only `user_settings`; goals optional | Accepted |
 | [0026](decisions/0026-account-deletion.md) | Account deletion deletes the user's data; creator role to the oldest owner or member | Accepted |
+| [0027](decisions/0027-security-baseline.md) | Security baseline: email confirmation off until launch; 32-byte invite tokens; function placement and grants; 1-hour JWT; publishable key only | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
@@ -95,7 +97,7 @@ Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
 | Product research | Reviewed ([PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md)) |
 | Technical research | Reviewed; decisions in ADR-0015 … 0019, hosting deferred ([TECH_RESEARCH.md](TECH_RESEARCH.md)) |
 | Database design | Draft ([DATABASE.md](DATABASE.md)); #49–#58 accepted in task 007-v2 |
-| Security | Not started |
+| Security | Draft ([SECURITY.md](SECURITY.md)); decisions in ADR-0027 |
 | Gamification design | Core rules decided (ADR-0020 … 0022, [GAMIFICATION.md](GAMIFICATION.md)); art style open (#11) |
 | UI/UX | Not started |
 | Roadmap (Phase 1+) | Not started |

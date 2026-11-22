@@ -7,7 +7,6 @@ in ADRs stay valid.
 | # | Question | Related | Notes |
 | --- | --- | --- | --- |
 | 1 | Heartbeat "large gap" threshold (the interval starts at 60 s, ADR-0016) | ADR-0007, ADR-0016 | Needs testing with real usage |
-| 6 | Email verification on sign-up | ADR-0001 | Proposed, not accepted |
 | 8 | Client-only global state library (if ever needed) | ADR-0009 | None until needed |
 | 9 | Frontend hosting | TECH_RESEARCH §4 | **Deferred until the release stage (user decision).** Research proposal on record: Cloudflare Workers with static assets; alternative Vercel Hobby |
 | 11 | Cat and item art: style and production (layered SVG?) | ADR-0020, ADR-0021 | **To be discussed in the UI/UX stage (user decision).** Art is likely the most expensive part of gamification. The first version has 5 cats and 9 items (GAMIFICATION.md) |
@@ -45,6 +44,10 @@ breaks as pauses; pauses clipped on edit; sessions can be deleted (coins correct
 room name and text limits; whole chat history, no editing; gamification data owner-only;
 timezone and language from the browser, current timezone for past days; no future times;
 `room_memberships` over Realtime.
+#6, #59–#64 → ADR-0027 (security baseline: email confirmation off until public launch;
+32-byte invite tokens; API functions with their own checks, helpers in a non-exposed schema,
+no `EXECUTE` for `anon`; no extra rate limits; 1-hour JWT; browser and Auth hardening
+before launch).
 #29 → CURRENT_STATE "Primary users" (university students studying together remotely).
 #30 → CURRENT_STATE "Primary users" (YKS students removed). The 18+ rule decided then was
 removed later (task 006).

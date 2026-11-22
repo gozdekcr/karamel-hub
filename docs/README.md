@@ -10,6 +10,7 @@
 | [PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md) | Similar apps: findings, inference, what to take and avoid, comparison table. Reviewed. |
 | [GAMIFICATION.md](GAMIFICATION.md) | Cats, coins, streak, shop: rules, tables and example calculations (ADR-0020 … 0022). |
 | [DATABASE.md](DATABASE.md) | Tables, constraints, access table, database functions, Realtime, computed values. Draft for review. |
+| [SECURITY.md](SECURITY.md) | Threat table, accepted limitations, Phase 1 security checklist. Draft for review. |
 | [TECH_RESEARCH.md](TECH_RESEARCH.md) | Open technical choices before Phase 1, with sources. Reviewed; decisions in ADR-0015 … 0019. |
 | [prompts/](prompts/) | Prompts given to Claude Code, saved per task. |
 | [reports/](reports/) | Claude Code task reports and test results. |
@@ -20,6 +21,5 @@
 | Document | Purpose |
 | --- | --- |
 | `ARCHITECTURE.md` | System overview diagram, module boundaries, data flow |
-| `SECURITY.md` | Threat list, RLS rules, invite links, rate limits |
 | `UI_UX.md` | Screens, user flows, visual direction |
 | `ROADMAP.md` | Phases 1+ with scope and acceptance criteria |
