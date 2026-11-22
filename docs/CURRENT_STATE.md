@@ -17,8 +17,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Platform | Desktop browser only. No mobile app or PWA for now. |
 | Users | Multi-user with public sign-up. Solo use is fully supported; rooms are optional. |
 | Primary users | The design is driven by university students who want to study together from different places. Goal: study-group members motivate each other remotely. |
-| Age | The app is for users aged 18 and over. |
-| Rooms | Persistent while they have members. A user can join several rooms. Anyone with the invite link can join. |
+| Rooms | Persistent while they have members. A user can join several rooms. Anyone with the invite link can join. All members can see and share the link; owners regenerate it. |
 | Room owners | A room can have several owners; any owner can make a member an owner and remove or demote other owners (like WhatsApp group admins). Permission table in ADR-0014. |
 | Creator role | Exactly one member holds the creator role (first the room's creator; always an owner). Nobody can remove or demote them. Only they can delete the room. They can hand the role over at any time (and must when leaving); the receiver becomes an owner if needed, the previous holder stays an owner. |
 | Leaving a room | Members and owners leave freely; the creator-role holder hands the role over first. The last person sees a warning and the room is deleted. |
@@ -37,6 +36,10 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Coins | 30 coins/hour: `floor(minutes ÷ 2)` per session when it ends; pomodoro and free timer equal. 5 one-time achievements (20–75 coins each, list in ADR-0021). Edited sessions are recalculated with a correction entry; achievement coins are kept. Balance may go negative; no buying while negative. |
 | Streak | A day counts with ≥ 25 minutes; midnight in the user's timezone, sessions split at midnight. 1 missed day per calendar week (Monday to Sunday) is forgiven automatically (keeps, does not add). |
 | Shop | 9 items in 3 slots (head, eyes, neck), 1,500 coins in total; bought once, usable on all cats. List in ADR-0021. |
+| Goals | A daily and a weekly goal in minutes; optional, no default; private (owner-only `user_settings`, with timezone and language). No history: past days are evaluated against the current goal. |
+| Profiles | `profiles` holds only the display name, which room members can read. |
+| Account deletion | The user's sessions, chat messages, membership history and all personal data are deleted; room statistics shrink accordingly. The creator role passes to the oldest owner, else the oldest member; an empty room is deleted. |
+| Release | The app is not being released publicly now. Privacy, legal requirements and the age policy are reviewed before a public release (OPEN_QUESTIONS #32). |
 | Gamification later | Outfit slot, cat room, 150-hour and 30-day streak cats. |
 
 ## Architecture decisions
@@ -65,6 +68,10 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0020](decisions/0020-cat-unlocks.md) | Cats unlocked by study time and longest streak; 5 cats; permanent | Accepted |
 | [0021](decisions/0021-coin-economy-and-shop.md) | 30 coins/hour, correction entries on edits, negative balance blocks buying; shop with 3 slots, 9 items | Accepted |
 | [0022](decisions/0022-streak-definition.md) | ≥ 25 min/day, user's midnight, 1 forgiven day per calendar week | Accepted |
+| [0023](decisions/0023-invite-link-visible-to-members.md) | All members can see and share the invite link; owners regenerate it | Accepted |
+| [0024](decisions/0024-gamification-catalog-in-database.md) | Catalog in database tables loaded by migrations; reward calculations only in SQL (except `minutes ÷ 2` and shared time, tested in both) | Accepted |
+| [0025](decisions/0025-study-goals.md) | `profiles` = display name only; goals, timezone, language in owner-only `user_settings`; goals optional | Accepted |
+| [0026](decisions/0026-account-deletion.md) | Account deletion deletes the user's data; creator role to the oldest owner or member | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 

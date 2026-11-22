@@ -19,10 +19,9 @@ in ADRs stay valid.
 | 26 | Should rooms have a cooperative weekly goal (total or shared time target) with no penalty? | ADR-0005, PRODUCT_RESEARCH.md | **Proposed: yes, optional per room.** Builds on room total/shared time; avoids collective punishment (Forest group focus) |
 | 27 | Should rooms show a ranking of members by study time? | ADR-0005, PRODUCT_RESEARCH.md | **Proposed: no ordered ranking.** YPT ranks users; ranking adds pressure among friends. Per-member time is already shown |
 | 28 | Ambient sounds and visual themes (as in Flocus)? | PRODUCT_RESEARCH.md | **Proposed: later, low priority** |
-| 31 | How is the 18+ rule applied at sign-up (e.g. a self-declaration checkbox, or a birth date)? | CURRENT_STATE (Age) | **Proposed:** a self-declaration checkbox at sign-up, recorded with the account. Details in `SECURITY.md` |
-| 32 | Before public release: review privacy and legal requirements | CURRENT_STATE (Age), #31 | **Out of scope for now.** To be done before the app is released publicly |
+| 32 | Before public release: review privacy and legal requirements, including the age policy | CURRENT_STATE | **Out of scope for now.** To be done before the app is released publicly |
 | 41 | Node.js version for development and CI | ADR-0018, ADR-0019 | **To be decided at the start of Phase 1 (user decision).** Must satisfy Vitest (≥ 22.12) and Playwright (22, 24 or 26). Current LTS status not checked |
-| 42 | Reward rules (coins, unlocks, streak) written in both TypeScript and SQL? How to avoid duplicating them | ADR-0008, 0020, 0021, 0022 | **To be discussed in the database stage (user decision)** |
+| 48 | How does removing a member prevent rejoining: a ban record or a link rotation? | ADR-0014, ADR-0023 | **Deferred (user decision).** No table is designed for it in `DATABASE.md`. Since all members see the link (ADR-0023), rotation alone does not keep a removed user out |
 
 Resolved: #2 → ADR-0011 (sessions never overlap). #4 → ADR-0012 (room member limit).
 #7, #33, #34 → ADR-0015 (i18next + react-i18next, React Router, Recharts). #16, #35, #37 →
@@ -35,8 +34,15 @@ forgiven day per calendar week). #10 → ADR-0020, ADR-0021 and GAMIFICATION.md 
 stays open as #11).
 #43 → ADR-0021 (achievement list, items with slots and prices). #44 → ADR-0022 (the
 calendar week starts on Monday in every language).
+#42 → ADR-0024 (catalog tables in the database, loaded by migrations; reward calculations
+only in SQL). #31 → dropped (the 18+ rule was removed; the app is not being released now; the age
+policy is part of #32).
+#45, #46 → ADR-0025 (goals private and optional, in owner-only `user_settings`; `profiles`
+holds only the display name). #47 → ADR-0026 (creator role to the oldest owner or member;
+messages and membership history deleted).
 #29 → CURRENT_STATE "Primary users" (university students studying together remotely).
-#30 → CURRENT_STATE "Age" (users must be 18+; YKS students removed from the primary users).
+#30 → CURRENT_STATE "Primary users" (YKS students removed). The 18+ rule decided then was
+removed later (task 006).
 #17–#23 → ADR-0014 (owner removal, creator role and protection, empty rooms, deleting
 rooms, no deletion notification). Some answers changed during the discussion; ADR-0014
 holds the final rules: the creator role can be handed over at any time (and must be when

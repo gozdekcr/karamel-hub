@@ -9,6 +9,10 @@ Cats, coins, streaks and the shop. The binding decisions are in
 [ADR-0008](decisions/0008-coin-ledger.md) (coin ledger, rewards granted by database
 functions). If this document and an ADR disagree, the ADR wins.
 
+The catalog values (cat thresholds, items and prices, achievement conditions and coins)
+live in database catalog tables loaded by migrations; the TypeScript side reads them
+([ADR-0024](decisions/0024-gamification-catalog-in-database.md)).
+
 ## 1. Overview
 
 | System | In one sentence |
@@ -250,4 +254,3 @@ achievement coins are counted. For comparison, the 50-hour cat also needs 50 hou
 | Topic | Where | When |
 | --- | --- | --- |
 | Art style and production of cats and items | OPEN_QUESTIONS #11 | UI/UX stage |
-| Reward rules in both TypeScript and SQL? | OPEN_QUESTIONS #42 | Database stage |

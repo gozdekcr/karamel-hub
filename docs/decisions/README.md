@@ -28,3 +28,7 @@ been committed yet may be edited directly. Use [0000-template.md](0000-template.
 | [0020](0020-cat-unlocks.md) | Cat unlocks | Accepted |
 | [0021](0021-coin-economy-and-shop.md) | Coin economy and shop | Accepted |
 | [0022](0022-streak-definition.md) | Streak definition | Accepted |
+| [0023](0023-invite-link-visible-to-members.md) | Invite link visible to all members | Accepted |
+| [0024](0024-gamification-catalog-in-database.md) | Gamification catalog and reward calculations in the database | Accepted |
+| [0025](0025-study-goals.md) | Profiles, user settings and study goals | Accepted |
+| [0026](0026-account-deletion.md) | Account deletion | Accepted |

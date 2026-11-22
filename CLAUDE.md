@@ -77,6 +77,10 @@ unless the user's prompt explicitly starts Phase 1.
 - Cats are unlocked by studying, never bought, never removed. (ADR-0020)
 - A session's ledger entries always sum to `floor(minutes ÷ 2)`; edits add a correction entry. (ADR-0021)
 - Streaks are derived from sessions, never stored as counters. (ADR-0022)
+- Gamification catalog values live only in database tables loaded by migrations; reward
+  calculations run only in SQL. Exceptions (`minutes ÷ 2`, room shared time) also exist in
+  TS and share test cases in Vitest and pgTAP. (ADR-0024)
+- `profiles` holds only the display name; private settings live in owner-only `user_settings`. (ADR-0025)
 
 ## Final report format
 

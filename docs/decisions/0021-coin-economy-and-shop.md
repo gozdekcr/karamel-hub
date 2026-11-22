@@ -87,5 +87,6 @@ edited freely (ADR-0007), and cheating is not a design goal. Details and example
 
 ## Open points
 
-- Whether reward rules are written in both TypeScript and SQL (OPEN_QUESTIONS #42).
+- Whether reward rules are written in both TypeScript and SQL: resolved by
+  [ADR-0024](0024-gamification-catalog-in-database.md).
 - Later, not in the first version: an outfit slot and the cat room.

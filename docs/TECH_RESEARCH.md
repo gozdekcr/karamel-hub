@@ -31,7 +31,7 @@
 - ADR-0006: room members see **only time data**, enforced in the database; Presence per room.
 - ADR-0007: heartbeat; ADR-0009: TanStack Query; ADR-0010: key-based i18n with feature
   namespaces, TR + EN; ADR-0011: sessions never overlap (exclusion constraint).
-- CURRENT_STATE: desktop browser only; primary users are university students, 18+.
+- CURRENT_STATE: desktop browser only; primary users are university students, 18+ (the 18+ rule was removed later, task 006).
 
 ---
 

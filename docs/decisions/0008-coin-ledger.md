@@ -35,5 +35,6 @@ tabs finishing the same session). Cheating is not a goal; consistency is.
   [ADR-0021](0021-coin-economy-and-shop.md) (economy, shop, achievements) and
   [ADR-0022](0022-streak-definition.md) (streak); details in `GAMIFICATION.md`.
 - How rewards react to session edits: resolved by ADR-0021.
-- Reward rules in both TypeScript and SQL: deferred to the database stage
-  (OPEN_QUESTIONS #42).
+- Reward rules in both TypeScript and SQL: resolved by
+  [ADR-0024](0024-gamification-catalog-in-database.md) — the catalog lives in the database
+  and TypeScript reads it.

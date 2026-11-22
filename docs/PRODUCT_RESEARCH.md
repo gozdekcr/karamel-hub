@@ -312,7 +312,9 @@ as the best-documented example of streak mechanics).
 ### Decided by the user (2026-11-22, recorded in CURRENT_STATE)
 
 The **primary users who drive the design** are **university students** who want to study
-together but are in different places. The app is for users **aged 18 and over**.
+together but are in different places. *(An 18+ rule was decided at first and removed in
+task 006: the app is not being released now; the age policy is reviewed before a public
+release, OPEN_QUESTIONS #32.)*
 
 **Goal:** members of a study group motivate each other, even remotely.
 
@@ -333,7 +335,6 @@ because many are under 18.)*
   - University study comes in waves (exam weeks vs. quiet weeks); long sessions without a
     maximum (ADR-0007), weekly/monthly statistics and a forgiving streak (#24) fit this.
   - Turkish is likely the main language at first; English stays supported (ADR-0010).
-  - How the 18+ rule is applied at sign-up is open → OPEN_QUESTIONS #31 (Proposed).
 
 ---
 
