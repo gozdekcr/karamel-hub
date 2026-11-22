@@ -205,7 +205,7 @@ Messages cannot be edited or deleted in the first version (#54).
 ### 1.5 Gamification catalog (ADR-0020, ADR-0021, ADR-0024)
 
 Read-only for users, readable by every signed-in user (ADR-0024). The primary key is the
-i18n key suffix (e.g. `ribbon` → `cats:items.ribbon.name`, exact key format decided with
+i18n key suffix (e.g. `frog-hood` → `cats:items.frog-hood.name`, exact key format decided with
 the i18n files).
 
 #### `cats`
@@ -216,6 +216,15 @@ the i18n files).
 | `unlock_type` | `text` | no | `signup`, `total_minutes` or `longest_streak_days` |
 | `threshold` | `int` | yes | `NULL` for `signup`; otherwise `> 0` |
 | `sort_order` | `int` | no | Display order |
+| `eye_x` | `real` | no | Eye centre `ex`, in pixels of the 512×512 cat image |
+| `eye_y` | `real` | no | Eye centre `ey` |
+| `eye_distance` | `real` | no | `d`, distance between the eye centres; `> 0` |
+| `skull_top_y` | `real` | no | Topmost cat pixel in the column `x = ex` |
+
+The four landmark columns (ADR-0028) hold the cat landmarks of the automatic placement method
+([assets README](assets/README.md#automatic-placement)). They are computed once per cat
+when its art is added and inserted by the catalog migration. The chin is not stored: it is
+`eye_y + 0.70 × eye_distance` (assets README).
 
 #### `items`
 
@@ -226,9 +235,22 @@ the i18n files).
 | `tier` | `text` | no | `easy`, `medium` or `hard` |
 | `price` | `int` | no | `> 0` |
 | `sort_order` | `int` | no | |
+| `placement_type` | `text` | no | `hood`, `hat`, `bow` or `neck` |
+| `width_factor` | `real` | no | Item width (for `hood`: face-opening width) in units of `d`; `> 0` |
+| `vertical_offset` | `real` | no | Vertical offset in units of `d`; may be negative |
+| `opening_center_x` | `real` | yes | Centre of a hood's face opening, in pixels of the item image. Set only for `hood` |
+| `opening_center_y` | `real` | yes | Same, vertical. Set only for `hood` |
+| `opening_width` | `real` | yes | Width of a hood's face opening, in pixels of the item image; `> 0`. Set only for `hood` |
 
 Also unique on `(key, slot)`, so `cat_equipment` can check that an item is worn in its own
 slot (§3).
+
+The placement columns (ADR-0028) hold the item rules of the automatic placement method
+([assets README](assets/README.md#automatic-placement)); the first-version values are in
+that README. For `hood` items, the face opening ("the largest fully enclosed transparent
+area", assets README) is measured once when the item's art is added and stored in the three
+`opening_*` columns; like the cat landmarks, the values are inserted by the catalog
+migration (ADR-0028).
 
 #### `achievements`
 
@@ -255,11 +277,13 @@ Loaded by a migration (values from ADR-0020 and ADR-0021):
 
 | Table | Rows |
 | --- | --- |
-| `cats` | `starter` (signup) · `hours_10` (total_minutes 600) · `hours_50` (total_minutes 3000) · `streak_3` (longest_streak_days 3) · `streak_7` (longest_streak_days 7) |
-| `items` | `ribbon` head easy 50 · `beret` head medium 150 · `crown` head hard 400 · `round_glasses` eyes easy 50 · `sunglasses` eyes medium 200 · `bow_tie` neck easy 50 · `bell_collar` neck easy 50 · `scarf` neck medium 250 · `pearl_necklace` neck hard 300 |
+| `cats` | `karamel` (signup) — the only first-version cat (ADR-0028) |
+| `items` | head: `red-gingham-bow` easy 50 · `pink-visor` easy 50 · `yellow-bucket-hat` easy 50 · `denim-cap` medium 150 · `plaid-beret` medium 150 · `plaid-bucket-hat` medium 200 · `frog-hood` hard 300 · `bunny-hood` hard 300 · `strawberry-bonnet` hard 350 · `sunflower-bonnet` hard 400; neck: `red-gingham-bandana` easy 50 · `bear-plaid-bandana` easy 50 · `lace-collar` medium 250 (ADR-0028) |
 | `achievements` | `first_step` session_minutes 25, 20 coins · `team_player` rooms_joined 1, 30 · `better_together` room_shared_minutes 60, 50 · `marathon` session_minutes 180, 50 · `star_of_the_week` week_minutes 600, 75 |
 
-The keys above are a suggestion for naming only; they carry no new rule.
+Cat and item keys are the asset file names (`docs/assets/`, ADR-0028). Achievement keys
+are a naming suggestion only. The `total_minutes` and `longest_streak_days` unlock types
+stay in the schema for later cats; no first-version cat uses them (ADR-0028).
 
 #### How the catalog is loaded
 
@@ -472,6 +496,9 @@ message (ADR-0011, ADR-0016).
 | A cat wearing items is unlocked | FK `(user_id, cat_key)` → `user_cats` | ADR-0020 |
 | Achievement coins are between 20 and 75 | `CHECK (coins BETWEEN 20 AND 75)` on `achievements` | ADR-0021 |
 | Item slot and tier values | `CHECK` on `items.slot`, `items.tier` | ADR-0021 |
+| Placement type matches the slot | `CHECK`: `neck` type ⇔ `neck` slot; `hood`, `hat`, `bow` ⇒ `head` slot | ADR-0028 |
+| Hood opening only for hoods | `CHECK`: `placement_type = 'hood'` ⇒ `opening_center_x`, `opening_center_y`, `opening_width` all `NOT NULL`; otherwise all three `NULL` | ADR-0028 |
+| Placement values are positive | `CHECK`: `eye_distance > 0`, `width_factor > 0`, `opening_width > 0` when set | ADR-0028 |
 
 ### Settings
 
@@ -545,7 +572,7 @@ that the UI maps to i18n keys (ADR-0010).
 | Function | Input | What it does | Checks |
 | --- | --- | --- | --- |
 | `start_session` | `mode`, `course_id?`, `task_id?` | Inserts a session with `started_at = now()` and its `session_details` row | No active session (unique index); no overlap (exclusion constraint); course/task belong to the caller |
-| `pause_session` | — | Inserts a pause with `started_at = now()` for the caller's active session | An active session exists; it is not already paused |
+| `pause_session` | `at?` (Pomodoro only) | Inserts a pause for the caller's active session, with `started_at = now()`, or, for a Pomodoro break, at the exact end of the 25-minute work phase (UI_UX.md #68) | An active session exists; it is not already paused; `at`, if given, is a work-phase end computed from the session's own data and not later than `now()` |
 | `resume_session` | — | Sets `ended_at = now()` on the open pause | An open pause exists |
 | `heartbeat` | — | Upserts `heartbeats.last_seen_at = now()` | — |
 | `end_session` | `ended_at?` (optional: the "end at last heartbeat" suggestion, ADR-0007) | See below | An active session exists; `ended_at`, if given, lies between `started_at` and `now()` |
@@ -587,7 +614,7 @@ entry the user does not hold yet:
 | Achievement, `week_minutes` | Some calendar week (ADR-0022) has ≥ `threshold` study minutes | same |
 
 Inserts use "do nothing on conflict", so a repeated check never grants twice. Grants are
-never removed (ADR-0020, ADR-0021). The starter cat is granted at sign-up, together with
+never removed (ADR-0020, ADR-0021). The starter cat (`karamel`) is granted at sign-up, together with
 `profiles` and `user_settings`.
 
 ### 5.4 Shop and cats
@@ -604,6 +631,7 @@ the slot.
 | Function | Input | What it does | Checks |
 | --- | --- | --- | --- |
 | `create_room` | `name`, `member_limit` | Inserts the room with a new random token, `creator_id = caller`; inserts the caller's membership as `owner`; runs the `rooms_joined` check (creating counts, ADR-0021) | Valid limit (upper bound #13) |
+| `get_invite_room_name` | `invite_token` | Returns only the room's name for a valid token, for the invite confirmation screen (UI_UX.md #73) | Caller is signed in; a wrong token and a deleted room give the same error (SECURITY.md F7) |
 | `join_room` | `invite_token` | Locks the room; inserts a membership as `member`; runs the `rooms_joined` check | Token matches an existing room; caller is not a current member; open memberships < `member_limit` (ADR-0012). Rejoin after removal: #48 (deferred) |
 | `regenerate_invite_link` | `room_id` | Replaces `invite_token` with a new random value; the old link stops working at once | Caller is an owner |
 | `set_member_limit` | `room_id`, `member_limit` | Updates the limit | Caller is an owner; value valid (#13); lowering below the member count: #14 |
@@ -664,6 +692,7 @@ shared time.
 | **Daily minutes** per day | SQL (streak, achievements); TS (charts) | Sessions and pauses split at midnight in the user's timezone (ADR-0022, ADR-0010) |
 | **Streak** (current and longest) | SQL | From daily minutes: a day counts with ≥ 25 min; 1 missed day per calendar week (Monday–Sunday) is forgiven and does not add; today is not missed until it ends (ADR-0022). The UI reads the result (ADR-0024) |
 | **Week minutes** (Star of the week) | SQL | Daily minutes summed over Monday–Sunday in the user's timezone |
+| **Item placement** on a cat | TS | Display-only (ADR-0024): position and size from the cat's landmarks and the item's placement columns, by the rules in the [assets README](assets/README.md#automatic-placement) (ADR-0028) |
 | **Personal statistics** (day/week/month, charts, per course) | TS | From the user's own sessions; per-course stats join `session_details` (ADR-0016) |
 | **Goal met** | TS | Daily or weekly minutes ≥ the current goal; past days use the current goal (ADR-0025); no goal set → nothing to evaluate |
 | **Member's time in a room** | TS | Member's sessions clipped to their membership intervals (ADR-0005) |

@@ -217,6 +217,10 @@ signed-in user, as a second user, and as `anon`.
       `delete_session` brings it to 0 (ADR-0021, #52).
 - [ ] `buy_item`: refused with a negative balance or a balance below the price; two
       parallel purchases cannot both pass (F5).
+- [ ] `get_invite_room_name`: returns only the name; wrong token and deleted room give the
+      same error (F7).
+- [ ] `pause_session` with `at`: refused unless `at` is a work-phase end of the caller's
+      Pomodoro session and not in the future (#68).
 - [ ] `join_room`: wrong token and deleted room give the same error (F7); a full room is
       refused; two parallel joins cannot exceed the limit (F5).
 - [ ] `regenerate_invite_link`, `set_member_limit`, `remove_member`, `set_owner_role`:

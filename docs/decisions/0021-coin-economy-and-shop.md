@@ -1,6 +1,6 @@
 # ADR-0021: Coin economy and shop
 
-- **Status:** Accepted
+- **Status:** Partially superseded by ADR-0028 (first-version item list)
 - **Date:** 2026-11-22
 
 ## Context

@@ -5,7 +5,8 @@ Last updated: 2026-11-22 · Phase 0
 Cats, coins, streaks and the shop. The binding decisions are in
 [ADR-0020](decisions/0020-cat-unlocks.md) (cat unlocks),
 [ADR-0021](decisions/0021-coin-economy-and-shop.md) (coin economy and shop) and
-[ADR-0022](decisions/0022-streak-definition.md) (streak), on top of
+[ADR-0022](decisions/0022-streak-definition.md) (streak) and
+[ADR-0028](decisions/0028-first-version-catalog.md) (first-version cat and item catalog), on top of
 [ADR-0008](decisions/0008-coin-ledger.md) (coin ledger, rewards granted by database
 functions). If this document and an ADR disagree, the ADR wins.
 
@@ -17,12 +18,12 @@ live in database catalog tables loaded by migrations; the TypeScript side reads 
 
 | System | In one sentence |
 | --- | --- |
-| Cats | Unlocked by study time and streaks; never bought; never lost. |
+| Cats | First version: one cat, Karamel, given at sign-up. Later cats are unlocked by study time and streaks; never bought; never lost. |
 | Coins | Earned by studying (30/hour) and achievements; spent only in the shop. |
 | Streak | Consecutive days with ≥ 25 minutes of study; 1 missed day per calendar week is forgiven. |
-| Shop | 9 items in 3 slots; each bought once and usable on every cat. |
+| Shop | 13 items (head and neck; the eyes slot is empty for now); each bought once and usable on every cat. |
 
-## 2. Cats (ADR-0020)
+## 2. Cats (ADR-0020, ADR-0028)
 
 ### Rules
 
@@ -30,15 +31,26 @@ live in database catalog tables loaded by migrations; the TypeScript side reads 
 - Streak cats depend on the **longest streak ever reached**, not the current one.
 - An unlocked cat is **permanent**: breaking a streak or editing sessions never removes it.
 
-### First version: 5 cats
+### First version: one cat
 
-| # | Cat | Unlock condition |
+| Key | Cat | Unlock condition |
 | --- | --- | --- |
-| 1 | Starter cat | Granted at sign-up |
-| 2 | 10-hour cat | Total study time ≥ 10 hours |
-| 3 | 50-hour cat | Total study time ≥ 50 hours |
-| 4 | 3-day streak cat | Longest streak ≥ 3 days |
-| 5 | 7-day streak cat | Longest streak ≥ 7 days |
+| `karamel` | Karamel, orange tabby Scottish Fold (assets README) | Granted to everyone at sign-up |
+
+### Unlock rules (in the design, not used in the first version)
+
+The rules below stay in the design (catalog columns and the reward check, DATABASE.md
+§1.5, §5.3), but the first-version catalog has no cat that uses them (ADR-0028). They are
+used when later cats are added; which cat gets which rule is not decided
+(OPEN_QUESTIONS #65).
+
+| Unlock type | Thresholds from ADR-0020 |
+| --- | --- |
+| Total study time | 10 hours, 50 hours |
+| Longest streak | 3 days, 7 days |
+
+Later cats with art in `docs/assets/` (not final quality): `grey-shorthair`,
+`orange-white`, `white-longhair`, `grey-white-longhair`.
 
 "Total study time" is the sum of all of the user's sessions' study time
 (pauses excluded, ADR-0003), including edited and manually added sessions (ADR-0007).
@@ -49,7 +61,7 @@ Whenever total study time or the longest streak can grow: a session ends, a sess
 edited, or a session is added manually. If an edit later lowers the total below the
 threshold, the cat stays.
 
-### Examples
+### Examples (for when later cats exist)
 
 - A user finishes their first session of 30 minutes → only the starter cat (it was granted
   at sign-up).
@@ -200,57 +212,71 @@ forgiven when they fall in different weeks.
 
 ### Streak and cats
 
-The 3-day and 7-day cats use the **longest** streak. Forgiven days do not count, so a
-3-day streak needs 3 counted days: ✓ ✗F ✓ ✓ unlocks the 3-day cat on the last day.
+Streak-based cats (not in the first version) use the **longest** streak. Forgiven days do
+not count, so a 3-day streak needs 3 counted days: ✓ ✗F ✓ ✓ would unlock a 3-day cat on
+the last day.
 
-## 5. Shop (ADR-0021)
+## 5. Shop (ADR-0021, ADR-0028)
 
 ### Rules
 
 - Coins are spent **only in the shop**.
 - An item is **bought once** and can be **used on all cats**.
-- **3 slots:** head, eyes, neck.
+- **3 slots:** head, eyes, neck. The **eyes slot is empty** in the first version.
 - Bought items are permanent.
 
 Each cat wears at most one item per slot, and the same item can be worn
 by several cats at the same time.
 
-### First version: 9 items
+**Placement is automatic:** users never align items. Position and size come from the cat's
+landmarks and each item's type and two numbers; the method, the values and the drawing
+order are in the [assets README](assets/README.md#automatic-placement). Where these values
+are stored is in DATABASE.md §1.5 (ADR-0028).
 
-| Slot | Item | Tier | Price (coins) | Study time to earn it alone |
+### First version: 13 items
+
+| Slot | Key | Tier | Price (coins) | Study time to earn it alone |
 | --- | --- | --- | --- | --- |
-| Head | Ribbon | Easy | 50 | 1 h 40 min |
-| Head | Beret | Medium | 150 | 5 h |
-| Head | Crown | Hard | 400 | 13 h 20 min |
-| Eyes | Round glasses | Easy | 50 | 1 h 40 min |
-| Eyes | Sunglasses | Medium | 200 | 6 h 40 min |
-| Neck | Bow tie | Easy | 50 | 1 h 40 min |
-| Neck | Bell collar | Easy | 50 | 1 h 40 min |
-| Neck | Scarf | Medium | 250 | 8 h 20 min |
-| Neck | Pearl necklace | Hard | 300 | 10 h |
+| Head | `red-gingham-bow` | Easy | 50 | 1 h 40 min |
+| Head | `pink-visor` | Easy | 50 | 1 h 40 min |
+| Head | `yellow-bucket-hat` | Easy | 50 | 1 h 40 min |
+| Head | `denim-cap` | Medium | 150 | 5 h |
+| Head | `plaid-beret` | Medium | 150 | 5 h |
+| Head | `plaid-bucket-hat` | Medium | 200 | 6 h 40 min |
+| Head | `frog-hood` | Hard | 300 | 10 h |
+| Head | `bunny-hood` | Hard | 300 | 10 h |
+| Head | `strawberry-bonnet` | Hard | 350 | 11 h 40 min |
+| Head | `sunflower-bonnet` | Hard | 400 | 13 h 20 min |
+| Neck | `red-gingham-bandana` | Easy | 50 | 1 h 40 min |
+| Neck | `bear-plaid-bandana` | Easy | 50 | 1 h 40 min |
+| Neck | `lace-collar` | Medium | 250 | 8 h 20 min |
 
-Item names are translation keys (ADR-0010); the names above are the English ones.
+Keys are the asset file names; display names (TR/EN) are translations (ADR-0010). Tiers
+follow ADR-0021's price ranges (ADR-0028).
 
 ### Whole-shop cost
 
 | Tier | Items | Coins |
 | --- | --- | --- |
-| Easy | 4 × 50 | 200 |
-| Medium | 150 + 200 + 250 | 600 |
-| Hard | 300 + 400 | 700 |
-| **Total** | 9 items | **1,500** |
+| Easy | 5 × 50 | 250 |
+| Medium | 150 + 150 + 200 + 250 | 750 |
+| Hard | 300 + 300 + 350 + 400 | 1,350 |
+| **Total** | 13 items | **2,350** |
 
-1,500 coins = **50 hours** of study at 30 coins/hour, or about 42 h 30 min if all 225
-achievement coins are counted. For comparison, the 50-hour cat also needs 50 hours.
+By slot: head 2,000 coins, neck 350 coins. 2,350 coins = **78 h 20 min** of study at
+30 coins/hour, or about **70 h 50 min** if all 225 achievement coins are counted.
 
 ## 6. Later (not in the first version)
 
 - Outfit slot
 - Cat room (and decoration, from the brief)
+- The four later cats (see §2) and their unlock rules (#65)
+- Items for the eyes slot
 - 150-hour cat and 30-day streak cat
 
 ## 7. Still open
 
 | Topic | Where | When |
 | --- | --- | --- |
-| Art style and production of cats and items | OPEN_QUESTIONS #11 | UI/UX stage |
+| Which later cat uses which unlock rule | OPEN_QUESTIONS #65 | Before later cats are added |
+| Re-implementing and testing automatic placement (assets README) | — | Phase 1 |

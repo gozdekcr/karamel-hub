@@ -25,11 +25,12 @@ been committed yet may be edited directly. Use [0000-template.md](0000-template.
 | [0017](0017-realtime-private-channels.md) | Realtime: private channels for room Presence | Accepted |
 | [0018](0018-local-development-and-testing.md) | Local development, migrations and testing | Accepted |
 | [0019](0019-react-typescript-vite.md) | React, TypeScript and Vite | Accepted |
-| [0020](0020-cat-unlocks.md) | Cat unlocks | Accepted |
-| [0021](0021-coin-economy-and-shop.md) | Coin economy and shop | Accepted |
+| [0020](0020-cat-unlocks.md) | Cat unlocks | Partially superseded by [0028](0028-first-version-catalog.md) |
+| [0021](0021-coin-economy-and-shop.md) | Coin economy and shop | Partially superseded by [0028](0028-first-version-catalog.md) |
 | [0022](0022-streak-definition.md) | Streak definition | Accepted |
 | [0023](0023-invite-link-visible-to-members.md) | Invite link visible to all members | Accepted |
 | [0024](0024-gamification-catalog-in-database.md) | Gamification catalog and reward calculations in the database | Accepted |
 | [0025](0025-study-goals.md) | Profiles, user settings and study goals | Accepted |
 | [0026](0026-account-deletion.md) | Account deletion | Accepted |
 | [0027](0027-security-baseline.md) | Security baseline for the friend-group stage | Accepted |
+| [0028](0028-first-version-catalog.md) | First-version cat and item catalog | Accepted |

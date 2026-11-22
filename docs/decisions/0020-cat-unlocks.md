@@ -1,6 +1,6 @@
 # ADR-0020: Cat unlocks
 
-- **Status:** Accepted
+- **Status:** Partially superseded by ADR-0028 (first-version cat list)
 - **Date:** 2026-11-22
 
 ## Context
@@ -44,5 +44,6 @@ examples: [GAMIFICATION.md](../GAMIFICATION.md).
 
 ## Open points
 
-- Art style and production of the cats (OPEN_QUESTIONS #11).
+- Art style and production of the cats: resolved — the art is in `docs/assets/`
+  ([ADR-0028](0028-first-version-catalog.md)).
 - Later, not in the first version: a 150-hour cat and a 30-day streak cat.

@@ -32,22 +32,26 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Messaging | Room chat only. No direct messages. |
 | Languages | Turkish and English. |
 | Cheating | Not a design goal. Coins exist for fun; sessions can be edited freely. |
-| Cats | Unlocked by studying, never bought. First version: 5 cats (starter at sign-up, 10 h, 50 h, 3-day and 7-day longest streak). Permanent. |
+| Cats | First version: one cat, Karamel, granted at sign-up (ADR-0028). Cats are never bought and never removed; the unlock rules (10 h, 50 h, 3-day and 7-day longest streak) stay in the design for later cats. |
 | Coins | 30 coins/hour: `floor(minutes ÷ 2)` per session when it ends; pomodoro and free timer equal. 5 one-time achievements (20–75 coins each, list in ADR-0021). Edited sessions are recalculated with a correction entry; achievement coins are kept. Balance may go negative; no buying while negative. |
 | Streak | A day counts with ≥ 25 minutes; midnight in the user's timezone, sessions split at midnight. 1 missed day per calendar week (Monday to Sunday) is forgiven automatically (keeps, does not add). |
-| Shop | 9 items in 3 slots (head, eyes, neck), 1,500 coins in total; bought once, usable on all cats. List in ADR-0021. |
+| Shop | 13 items in the head and neck slots (eyes slot empty for now), 2,350 coins in total; bought once, usable on all cats. List in ADR-0028. Items are placed on the cat automatically (assets README); placement values are catalog data. |
 | Goals | A daily and a weekly goal in minutes; optional, no default; private (owner-only `user_settings`, with timezone and language). No history: past days are evaluated against the current goal. |
 | Profiles | `profiles` holds only the display name, which room members can read. |
 | Account deletion | **Later phase.** The user's sessions, chat messages, membership history and all personal data are deleted; room statistics shrink accordingly. The creator role passes to the oldest owner, else the oldest member; an empty room is deleted. |
 | Release | The app is not being released publicly now. Privacy, legal requirements and the age policy are reviewed before a public release (OPEN_QUESTIONS #32). |
 | Courses and tasks | Owner-only. A session can link to one course and one task (optional). |
-| Pomodoro | Breaks are stored as pauses: not study time, no coins. |
 | Session editing | Pauses are clipped to the new range. Times cannot be in the future. A user can delete a finished session; its coins are corrected to 0, rewards already granted stay. |
 | Room chat | Members see the whole history; messages cannot be edited or deleted. Rooms have a required name. Limits: display name 30, room name 50, message 1,000 characters. |
 | Gamification visibility | Cats, items and coins are visible only to their owner. |
 | Timezone and language | Taken from the browser at sign-up; past days use the current timezone. |
 | Email verification | Off for the friend-group stage; turned on with custom SMTP before public launch. |
-| Gamification later | Outfit slot, cat room, 150-hour and 30-day streak cats. |
+| Layout | Fixed left menu with the user's dressed Karamel above it; a timer strip (elapsed time + stop) at the top of pages while a session runs. Screens and flows in [UI_UX.md](UI_UX.md). |
+| Pomodoro | Fixed 25 minutes of work and 5 minutes of break. The break starts automatically (stored as a pause from the exact phase end); the next work phase starts when the user clicks "Continue". Browser notification at phase ends; permission asked at the first Pomodoro. |
+| First login | Sign-up → display name → meet Karamel → daily goal (can be skipped) → Home. |
+| Home | Greeting with coin and streak badges; timer card (2 columns, dark caramel `#8E5222`) with goal rings; My rooms, Today's tasks (open + done today), monthly study calendar (4 tones, today framed); achievements strip. |
+| Visual direction | Pastel, low contrast, large rounded cards (26 px), ring charts, personal greeting. Palette from Karamel (UI_UX.md §6.2); fonts Fredoka (headings) and Nunito (body), self-hosted; clickable areas ≥ 44 px; minimum window width 1024 px. Contrast rules, calendar tones, errors (pink + icon), reduced motion and visible focus in UI_UX.md §6. |
+| Gamification later | Four more cats (art in `docs/assets/`), eyes-slot items, outfit slot, cat room, 150-hour and 30-day streak cats. |
 
 ## Architecture decisions
 
@@ -72,14 +76,15 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0017](decisions/0017-realtime-private-channels.md) | Private Realtime channels for room Presence; free plan sufficient | Accepted |
 | [0018](decisions/0018-local-development-and-testing.md) | Supabase CLI + Docker, migrations in git; Vitest, Playwright, pgTAP, supabase-js RLS tests | Accepted |
 | [0019](decisions/0019-react-typescript-vite.md) | React + TypeScript + Vite; client-rendered SPA | Accepted |
-| [0020](decisions/0020-cat-unlocks.md) | Cats unlocked by study time and longest streak; 5 cats; permanent | Accepted |
-| [0021](decisions/0021-coin-economy-and-shop.md) | 30 coins/hour, correction entries on edits, negative balance blocks buying; shop with 3 slots, 9 items | Accepted |
+| [0020](decisions/0020-cat-unlocks.md) | Cats unlocked by study time and longest streak; permanent | Partially superseded by 0028 (cat list) |
+| [0021](decisions/0021-coin-economy-and-shop.md) | 30 coins/hour, correction entries on edits, negative balance blocks buying; shop with 3 slots, 9 items | Partially superseded by 0028 (item list) |
 | [0022](decisions/0022-streak-definition.md) | ≥ 25 min/day, user's midnight, 1 forgiven day per calendar week | Accepted |
 | [0023](decisions/0023-invite-link-visible-to-members.md) | All members can see and share the invite link; owners regenerate it | Accepted |
 | [0024](decisions/0024-gamification-catalog-in-database.md) | Catalog in database tables loaded by migrations; reward calculations only in SQL (except `minutes ÷ 2` and shared time, tested in both) | Accepted |
 | [0025](decisions/0025-study-goals.md) | `profiles` = display name only; goals, timezone, language in owner-only `user_settings`; goals optional | Accepted |
 | [0026](decisions/0026-account-deletion.md) | Account deletion deletes the user's data; creator role to the oldest owner or member | Accepted |
 | [0027](decisions/0027-security-baseline.md) | Security baseline: email confirmation off until launch; 32-byte invite tokens; function placement and grants; 1-hour JWT; publishable key only | Accepted |
+| [0028](decisions/0028-first-version-catalog.md) | First version: one cat (Karamel); 13 items in head and neck slots; placement data in the catalog | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
@@ -98,6 +103,6 @@ Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
 | Technical research | Reviewed; decisions in ADR-0015 … 0019, hosting deferred ([TECH_RESEARCH.md](TECH_RESEARCH.md)) |
 | Database design | Draft ([DATABASE.md](DATABASE.md)); #49–#58 accepted in task 007-v2 |
 | Security | Draft ([SECURITY.md](SECURITY.md)); decisions in ADR-0027 |
-| Gamification design | Core rules decided (ADR-0020 … 0022, [GAMIFICATION.md](GAMIFICATION.md)); art style open (#11) |
-| UI/UX | Not started |
+| Gamification design | Done (ADR-0020 … 0022, ADR-0028, [GAMIFICATION.md](GAMIFICATION.md)); art and placement rules in `docs/assets/`; placement re-implemented and tested in Phase 1 |
+| UI/UX | Decided ([UI_UX.md](UI_UX.md)) |
 | Roadmap (Phase 1+) | Not started |
