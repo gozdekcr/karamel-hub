@@ -43,7 +43,7 @@
 
 ### Phase 0 order (draft)
 
-1. Core architecture decisions — done (ADR-0001 … 0014)
+1. Core architecture decisions — done (ADR-0001 … 0014; later ADRs come from the steps below)
 2. Product research → `PRODUCT_RESEARCH.md`
 3. Technical research → `TECH_RESEARCH.md` (closes open library questions)
 4. Gamification design → `GAMIFICATION.md`

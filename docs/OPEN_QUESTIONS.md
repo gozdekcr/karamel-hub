@@ -58,6 +58,7 @@ Pomodoro; streak ring = today's progress to 25 min; palette, Fredoka + Nunito, 2
 #75 → UI_UX.md §6.2, §6.5 (accepted in task 010-v3): `#8E5222` behind normal-size text on
 accent, links `#7E4818`, accent and pink only as large text, `#6B4F3C` on inactive areas,
 calendar tones with minutes in a tooltip, errors = pink + icon, reduce motion, visible focus.
+#76, #77 → ADR-0029 (Phase 1 folder structure; shared Vitest/pgTAP test cases).
 #29 → CURRENT_STATE "Primary users" (university students studying together remotely).
 #30 → CURRENT_STATE "Primary users" (YKS students removed). The 18+ rule decided then was
 removed later (task 006).

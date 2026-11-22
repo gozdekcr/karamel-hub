@@ -337,7 +337,7 @@ flowchart TD
 | Home — rings | No goal set | Daily/weekly rings show "No goal" and a link to Settings (goals are optional, ADR-0025) |
 | Home — My rooms | No rooms | "You are not in a room yet" with **Create room** and a note that friends can send an invite link |
 | Home — Today's tasks | No open tasks and none completed today (#67) | "No tasks for today" with a link to Courses and tasks |
-| Home — Recent achievements | None earned | The first achievement to aim for ("First step": a 25-minute session) |
+| Home — Achievements strip | None earned | The first achievement to aim for ("First step": a 25-minute session) |
 | Statistics | No sessions at all | Empty chart frames with "Start your first session" and **Add a session manually** |
 | Rooms | No rooms | Same as Home — My rooms, larger |
 | Room page — chat | No messages | "Say hello to the room" |

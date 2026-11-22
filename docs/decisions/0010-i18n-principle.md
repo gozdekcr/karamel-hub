@@ -1,6 +1,6 @@
 # ADR-0010: i18n principle
 
-- **Status:** Accepted
+- **Status:** Accepted · Note: the library is decided in ADR-0015
 - **Date:** 2026-11-22
 
 ## Context

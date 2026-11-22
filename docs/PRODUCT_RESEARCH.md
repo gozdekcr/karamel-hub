@@ -394,4 +394,4 @@ because many are under 18.)*
 | Study Bunny | Coins for a bunny | — | — | ✅ coins | ✅ items | — | — | Coin loss on pause (nv) | Study tracker | — |
 | Focus Friend | Socks → room decor | — | — | ✅ socks | ✅ room decor | — | — | ✅ bean drops knitting; app blocking | — | — |
 | Duolingo (streak only) | Streak | — | — | ✅ | — | ✅ | Freeze, amulet, revival event | — | — | — |
-| **Karamel-hub (decided)** | Study time and streaks → cats; coins → cosmetics | Persistent invite rooms, ambient presence, chat | ❌ | ✅ ledger | ✅ cats, cosmetics | ✅ | Cats never lost; 1 forgiven day per week (ADR-0022) | ❌ none | Personal day/week/month | ✅ room shared time |
+| **Karamel-hub (decided)** | Coins → cosmetics for Karamel (one cat in the first version, ADR-0028; later cats unlocked by study time and streaks) | Persistent invite rooms, ambient presence, chat | ❌ | ✅ ledger | ✅ cats, cosmetics | ✅ | Cats never lost; 1 forgiven day per week (ADR-0022) | ❌ none | Personal day/week/month | ✅ room shared time |

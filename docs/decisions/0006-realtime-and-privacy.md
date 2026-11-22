@@ -1,6 +1,6 @@
 # ADR-0006: Realtime and privacy
 
-- **Status:** Accepted
+- **Status:** Accepted · Note: time-only visibility is implemented by the table split of ADR-0016
 - **Date:** 2026-11-22
 
 ## Context

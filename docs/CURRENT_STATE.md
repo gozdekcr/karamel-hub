@@ -58,7 +58,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | ADR | Decision | Status |
 | --- | --- | --- |
 | [0001](decisions/0001-backend-supabase.md) | Supabase (Auth, PostgreSQL, Realtime); backend logic in the database | Accepted |
-| [0002](decisions/0002-frontend-layering.md) | `domain/` · `data/` · `features/` layering | Partially superseded by 0024 (streak and reward rules) |
+| [0002](decisions/0002-frontend-layering.md) | `domain/` · `data/` · `features/` layering | Partially superseded by 0024 (streak and reward rules); extended by 0029 |
 | [0003](decisions/0003-timer-and-session-model.md) | One active personal session; `started_at` + pauses; server time | Accepted |
 | [0004](decisions/0004-room-model.md) | Persistent rooms with a single owner | Superseded by 0013 |
 | [0005](decisions/0005-room-statistics.md) | Room stats derived from sessions; total vs shared (sweep-line) | Accepted |
@@ -85,6 +85,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0026](decisions/0026-account-deletion.md) | Account deletion deletes the user's data; creator role to the oldest owner or member | Accepted |
 | [0027](decisions/0027-security-baseline.md) | Security baseline: email confirmation off until launch; 32-byte invite tokens; function placement and grants; 1-hour JWT; publishable key only | Accepted |
 | [0028](decisions/0028-first-version-catalog.md) | First version: one cat (Karamel); 13 items in head and neck slots; placement data in the catalog | Accepted |
+| [0029](decisions/0029-phase-1-folder-structure.md) | Phase 1 folder structure (`src/app`, `shared/ui`, art in `public/art/`); shared Vitest/pgTAP test cases | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
@@ -98,11 +99,12 @@ Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
 | Area | Status |
 | --- | --- |
 | Product idea and scope | Done (this document) |
-| Core architecture decisions | Done (ADR-0001 … 0014) |
+| Core architecture decisions | Done (ADR-0001 … 0014; later ADRs 0015 … 0029 come from the research and design tasks) |
 | Product research | Reviewed ([PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md)) |
 | Technical research | Reviewed; decisions in ADR-0015 … 0019, hosting deferred ([TECH_RESEARCH.md](TECH_RESEARCH.md)) |
 | Database design | Draft ([DATABASE.md](DATABASE.md)); #49–#58 accepted in task 007-v2 |
 | Security | Draft ([SECURITY.md](SECURITY.md)); decisions in ADR-0027 |
 | Gamification design | Done (ADR-0020 … 0022, ADR-0028, [GAMIFICATION.md](GAMIFICATION.md)); art and placement rules in `docs/assets/`; placement re-implemented and tested in Phase 1 |
 | UI/UX | Decided ([UI_UX.md](UI_UX.md)) |
+| Architecture overview | Done ([ARCHITECTURE.md](ARCHITECTURE.md)); folder structure in ADR-0029 |
 | Roadmap (Phase 1+) | Not started |

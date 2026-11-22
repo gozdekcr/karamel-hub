@@ -1,6 +1,6 @@
 # ADR-0017: Realtime — private channels for room Presence
 
-- **Status:** Accepted
+- **Status:** Accepted · Note: the JWT lifetime is 1 hour (ADR-0027)
 - **Date:** 2026-11-22
 
 ## Context

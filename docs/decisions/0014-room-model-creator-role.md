@@ -1,6 +1,6 @@
 # ADR-0014: Room model with multiple owners and a creator role
 
-- **Status:** Accepted
+- **Status:** Accepted · Note: how removal prevents rejoining is deferred (OPEN_QUESTIONS #48)
 - **Date:** 2026-11-22
 - **Supersedes:** [ADR-0013](0013-room-model-multiple-owners.md) (which superseded ADR-0004)
 
