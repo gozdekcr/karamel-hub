@@ -16,6 +16,8 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | --- | --- |
 | Platform | Desktop browser only. No mobile app or PWA for now. |
 | Users | Multi-user with public sign-up. Solo use is fully supported; rooms are optional. |
+| Primary users | The design is driven by university students who want to study together from different places. Goal: study-group members motivate each other remotely. |
+| Age | The app is for users aged 18 and over. |
 | Rooms | Persistent while they have members. A user can join several rooms. Anyone with the invite link can join. |
 | Room owners | A room can have several owners; any owner can make a member an owner and remove or demote other owners (like WhatsApp group admins). Permission table in ADR-0014. |
 | Creator role | Exactly one member holds the creator role (first the room's creator; always an owner). Nobody can remove or demote them. Only they can delete the room. They can hand the role over at any time (and must when leaving); the receiver becomes an owner if needed, the previous holder stays an owner. |
@@ -62,7 +64,7 @@ TanStack Query (accepted), an i18n library (to be researched).
 | --- | --- |
 | Product idea and scope | Done (this document) |
 | Core architecture decisions | Done (ADR-0001 … 0014) |
-| Product research | Not started |
+| Product research | Draft, awaiting review ([PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md)) |
 | Technical research | Not started |
 | Database design | Not started |
 | Security | Not started |
