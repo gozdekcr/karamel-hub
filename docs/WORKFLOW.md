@@ -22,7 +22,8 @@
    what was done, what was verified and how, known issues.
 4. The user reviews. Fixes and any other new round of the same task go into a new prompt
    with the next version suffix (see below).
-5. When approved: commit with a Conventional Commit message and update `CURRENT_STATE.md`.
+5. When approved: the user commits (Claude Code never commits or pushes; it only suggests a
+   Conventional Commit message). `CURRENT_STATE.md` is updated in the same change.
 
 ### File naming for prompts and reports
 

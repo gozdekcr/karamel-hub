@@ -25,3 +25,6 @@ been committed yet may be edited directly. Use [0000-template.md](0000-template.
 | [0017](0017-realtime-private-channels.md) | Realtime: private channels for room Presence | Accepted |
 | [0018](0018-local-development-and-testing.md) | Local development, migrations and testing | Accepted |
 | [0019](0019-react-typescript-vite.md) | React, TypeScript and Vite | Accepted |
+| [0020](0020-cat-unlocks.md) | Cat unlocks | Accepted |
+| [0021](0021-coin-economy-and-shop.md) | Coin economy and shop | Accepted |
+| [0022](0022-streak-definition.md) | Streak definition | Accepted |

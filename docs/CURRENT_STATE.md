@@ -33,6 +33,11 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Messaging | Room chat only. No direct messages. |
 | Languages | Turkish and English. |
 | Cheating | Not a design goal. Coins exist for fun; sessions can be edited freely. |
+| Cats | Unlocked by studying, never bought. First version: 5 cats (starter at sign-up, 10 h, 50 h, 3-day and 7-day longest streak). Permanent. |
+| Coins | 30 coins/hour: `floor(minutes ÷ 2)` per session when it ends; pomodoro and free timer equal. 5 one-time achievements (20–75 coins each, list in ADR-0021). Edited sessions are recalculated with a correction entry; achievement coins are kept. Balance may go negative; no buying while negative. |
+| Streak | A day counts with ≥ 25 minutes; midnight in the user's timezone, sessions split at midnight. 1 missed day per calendar week (Monday to Sunday) is forgiven automatically (keeps, does not add). |
+| Shop | 9 items in 3 slots (head, eyes, neck), 1,500 coins in total; bought once, usable on all cats. List in ADR-0021. |
+| Gamification later | Outfit slot, cat room, 150-hour and 30-day streak cats. |
 
 ## Architecture decisions
 
@@ -57,6 +62,9 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0017](decisions/0017-realtime-private-channels.md) | Private Realtime channels for room Presence; free plan sufficient | Accepted |
 | [0018](decisions/0018-local-development-and-testing.md) | Supabase CLI + Docker, migrations in git; Vitest, Playwright, pgTAP, supabase-js RLS tests | Accepted |
 | [0019](decisions/0019-react-typescript-vite.md) | React + TypeScript + Vite; client-rendered SPA | Accepted |
+| [0020](decisions/0020-cat-unlocks.md) | Cats unlocked by study time and longest streak; 5 cats; permanent | Accepted |
+| [0021](decisions/0021-coin-economy-and-shop.md) | 30 coins/hour, correction entries on edits, negative balance blocks buying; shop with 3 slots, 9 items | Accepted |
+| [0022](decisions/0022-streak-definition.md) | ≥ 25 min/day, user's midnight, 1 forgiven day per calendar week | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
@@ -75,6 +83,6 @@ Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
 | Technical research | Reviewed; decisions in ADR-0015 … 0019, hosting deferred ([TECH_RESEARCH.md](TECH_RESEARCH.md)) |
 | Database design | Not started |
 | Security | Not started |
-| Gamification design | Not started |
+| Gamification design | Core rules decided (ADR-0020 … 0022, [GAMIFICATION.md](GAMIFICATION.md)); art style open (#11) |
 | UI/UX | Not started |
 | Roadmap (Phase 1+) | Not started |

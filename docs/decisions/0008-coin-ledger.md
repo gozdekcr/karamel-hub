@@ -31,6 +31,9 @@ tabs finishing the same session). Cheating is not a goal; consistency is.
 
 ## Open points
 
-- The whole gamification design: unlock rules, economy, shop, cosmetics, achievements
-  (OPEN_QUESTIONS #10).
-- How rewards react to session edits (OPEN_QUESTIONS #3).
+- The whole gamification design: resolved by [ADR-0020](0020-cat-unlocks.md) (cat unlocks),
+  [ADR-0021](0021-coin-economy-and-shop.md) (economy, shop, achievements) and
+  [ADR-0022](0022-streak-definition.md) (streak); details in `GAMIFICATION.md`.
+- How rewards react to session edits: resolved by ADR-0021.
+- Reward rules in both TypeScript and SQL: deferred to the database stage
+  (OPEN_QUESTIONS #42).

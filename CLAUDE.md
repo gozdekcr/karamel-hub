@@ -36,9 +36,12 @@ unless the user's prompt explicitly starts Phase 1.
 - When a decision changes, update `docs/CURRENT_STATE.md` in the same change.
 - Never claim tests, verification, research or features that were not actually done.
   Separate sourced facts from your own assumptions and label them.
-- Do not commit, push, create repositories or external resources (Supabase projects,
-  deployments) without the user's explicit permission.
-- Commits use Conventional Commits: `docs: …`, `feat: …`, `fix: …`, `test: …`, `chore: …`.
+- **Never commit or push, even if the user asks.** The user always makes commits
+  themselves. You may only suggest a commit message.
+- Do not create repositories or external resources (Supabase projects, deployments)
+  without the user's explicit permission.
+- Commit messages use Conventional Commits: `docs: …`, `feat: …`, `fix: …`, `test: …`,
+  `chore: …`.
 - Keep changes small and focused on the task in the prompt. Do not expand scope; list
   extra ideas under "Suggestions" in your final report instead.
 - If something is ambiguous or contradicts the docs, stop and ask.
@@ -71,6 +74,9 @@ unless the user's prompt explicitly starts Phase 1.
 - Heartbeats are stored in a separate per-user table that is not in the Realtime publication. (ADR-0016)
 - Room Presence uses private Realtime channels, authorized by RLS on `realtime.messages`. (ADR-0017)
 - Coins are a ledger; rewards are granted by database functions. (ADR-0008)
+- Cats are unlocked by studying, never bought, never removed. (ADR-0020)
+- A session's ledger entries always sum to `floor(minutes ÷ 2)`; edits add a correction entry. (ADR-0021)
+- Streaks are derived from sessions, never stored as counters. (ADR-0022)
 
 ## Final report format
 

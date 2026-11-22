@@ -31,4 +31,4 @@ Translation files that grow without structure become hard to maintain.
 ## Open points
 
 - i18n library: resolved by [ADR-0015](0015-frontend-libraries.md) (i18next + react-i18next).
-- Streak definition and day boundary (OPEN_QUESTIONS #5).
+- Streak definition and day boundary: resolved by [ADR-0022](0022-streak-definition.md).
