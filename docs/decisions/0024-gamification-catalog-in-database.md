@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-22
+- **Supersedes the streak/reward part of ADR-0002**
 
 ## Context
 

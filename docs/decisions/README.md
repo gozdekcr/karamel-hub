@@ -7,7 +7,7 @@ been committed yet may be edited directly. Use [0000-template.md](0000-template.
 | ADR | Title | Status |
 | --- | --- | --- |
 | [0001](0001-backend-supabase.md) | Backend: Supabase | Accepted |
-| [0002](0002-frontend-layering.md) | Frontend layering | Accepted |
+| [0002](0002-frontend-layering.md) | Frontend layering | Partially superseded by [0024](0024-gamification-catalog-in-database.md) |
 | [0003](0003-timer-and-session-model.md) | Timer and session model | Accepted |
 | [0004](0004-room-model.md) | Room model | Superseded by [0013](0013-room-model-multiple-owners.md) |
 | [0005](0005-room-statistics.md) | Room statistics | Accepted |

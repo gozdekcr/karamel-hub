@@ -38,8 +38,14 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Shop | 9 items in 3 slots (head, eyes, neck), 1,500 coins in total; bought once, usable on all cats. List in ADR-0021. |
 | Goals | A daily and a weekly goal in minutes; optional, no default; private (owner-only `user_settings`, with timezone and language). No history: past days are evaluated against the current goal. |
 | Profiles | `profiles` holds only the display name, which room members can read. |
-| Account deletion | The user's sessions, chat messages, membership history and all personal data are deleted; room statistics shrink accordingly. The creator role passes to the oldest owner, else the oldest member; an empty room is deleted. |
+| Account deletion | **Later phase.** The user's sessions, chat messages, membership history and all personal data are deleted; room statistics shrink accordingly. The creator role passes to the oldest owner, else the oldest member; an empty room is deleted. |
 | Release | The app is not being released publicly now. Privacy, legal requirements and the age policy are reviewed before a public release (OPEN_QUESTIONS #32). |
+| Courses and tasks | Owner-only. A session can link to one course and one task (optional). |
+| Pomodoro | Breaks are stored as pauses: not study time, no coins. |
+| Session editing | Pauses are clipped to the new range. Times cannot be in the future. A user can delete a finished session; its coins are corrected to 0, rewards already granted stay. |
+| Room chat | Members see the whole history; messages cannot be edited or deleted. Rooms have a required name. Limits: display name 30, room name 50, message 1,000 characters. |
+| Gamification visibility | Cats, items and coins are visible only to their owner. |
+| Timezone and language | Taken from the browser at sign-up; past days use the current timezone. |
 | Gamification later | Outfit slot, cat room, 150-hour and 30-day streak cats. |
 
 ## Architecture decisions
@@ -47,7 +53,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | ADR | Decision | Status |
 | --- | --- | --- |
 | [0001](decisions/0001-backend-supabase.md) | Supabase (Auth, PostgreSQL, Realtime); backend logic in the database | Accepted |
-| [0002](decisions/0002-frontend-layering.md) | `domain/` · `data/` · `features/` layering | Accepted |
+| [0002](decisions/0002-frontend-layering.md) | `domain/` · `data/` · `features/` layering | Partially superseded by 0024 (streak and reward rules) |
 | [0003](decisions/0003-timer-and-session-model.md) | One active personal session; `started_at` + pauses; server time | Accepted |
 | [0004](decisions/0004-room-model.md) | Persistent rooms with a single owner | Superseded by 0013 |
 | [0005](decisions/0005-room-statistics.md) | Room stats derived from sessions; total vs shared (sweep-line) | Accepted |
@@ -88,7 +94,7 @@ Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
 | Core architecture decisions | Done (ADR-0001 … 0014) |
 | Product research | Reviewed ([PRODUCT_RESEARCH.md](PRODUCT_RESEARCH.md)) |
 | Technical research | Reviewed; decisions in ADR-0015 … 0019, hosting deferred ([TECH_RESEARCH.md](TECH_RESEARCH.md)) |
-| Database design | Not started |
+| Database design | Draft ([DATABASE.md](DATABASE.md)); #49–#58 accepted in task 007-v2 |
 | Security | Not started |
 | Gamification design | Core rules decided (ADR-0020 … 0022, [GAMIFICATION.md](GAMIFICATION.md)); art style open (#11) |
 | UI/UX | Not started |

@@ -1,6 +1,6 @@
 # ADR-0002: Frontend layering
 
-- **Status:** Accepted
+- **Status:** Partially superseded by ADR-0024
 - **Date:** 2026-11-22
 
 ## Context

@@ -11,7 +11,7 @@ in ADRs stay valid.
 | 8 | Client-only global state library (if ever needed) | ADR-0009 | None until needed |
 | 9 | Frontend hosting | TECH_RESEARCH §4 | **Deferred until the release stage (user decision).** Research proposal on record: Cloudflare Workers with static assets; alternative Vercel Hobby |
 | 11 | Cat and item art: style and production (layered SVG?) | ADR-0020, ADR-0021 | **To be discussed in the UI/UX stage (user decision).** Art is likely the most expensive part of gamification. The first version has 5 cats and 9 items (GAMIFICATION.md) |
-| 12 | Phase order after Phase 0 | — | Draft: solo core → stats/streak → rooms/realtime → coins/cats → cosmetics |
+| 12 | Phase order after Phase 0 | — | Draft: solo core → stats/streak → rooms/realtime → coins/cats → cosmetics. **Account deletion goes to a later phase (user decision, task 007-v2)** |
 | 13 | Upper bound for a room's member limit | ADR-0012, 0006 | Owners choose the limit; what is the maximum allowed value? |
 | 14 | What happens if an owner lowers the limit below the current member count? | ADR-0012 | E.g. refuse the change, or allow it and only block new joins |
 | 15 | Per-user room limit (how many rooms one user can join or own) | ADR-0014, 0006, ADR-0017 | Each room is one Presence channel for the user. Supabase free plan allows 100 channels per connection — a hard ceiling |
@@ -40,6 +40,11 @@ policy is part of #32).
 #45, #46 → ADR-0025 (goals private and optional, in owner-only `user_settings`; `profiles`
 holds only the display name). #47 → ADR-0026 (creator role to the oldest owner or member;
 messages and membership history deleted).
+#49–#58 → DATABASE.md (accepted in task 007-v2): owner-only courses and tasks; Pomodoro
+breaks as pauses; pauses clipped on edit; sessions can be deleted (coins corrected to 0);
+room name and text limits; whole chat history, no editing; gamification data owner-only;
+timezone and language from the browser, current timezone for past days; no future times;
+`room_memberships` over Realtime.
 #29 → CURRENT_STATE "Primary users" (university students studying together remotely).
 #30 → CURRENT_STATE "Primary users" (YKS students removed). The 18+ rule decided then was
 removed later (task 006).
