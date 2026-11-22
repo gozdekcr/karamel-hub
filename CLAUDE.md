@@ -30,8 +30,9 @@ unless the user's prompt explicitly starts Phase 1.
   the same task keeps its number and adds `-v2`, `-v3` (see `docs/WORKFLOW.md`).
 - Do not finalize decisions on your own. New ideas are written as `Proposed` (in an ADR or
   in `OPEN_QUESTIONS.md`) and wait for the user's approval.
-- Do not edit the decision of an `Accepted` ADR. If it changes, write a new ADR that
-  supersedes it and set the old one to `Superseded by ADR-XXXX`.
+- Do not edit the decision of a committed `Accepted` ADR. If it changes, write a new ADR
+  that supersedes it and set the old one to `Superseded by ADR-XXXX`. An ADR that has not
+  been committed yet may be edited directly.
 - When a decision changes, update `docs/CURRENT_STATE.md` in the same change.
 - Never claim tests, verification, research or features that were not actually done.
   Separate sourced facts from your own assumptions and label them.
@@ -54,6 +55,13 @@ unless the user's prompt explicitly starts Phase 1.
 - `domain/` is pure TypeScript and never imports React or Supabase. (ADR-0002)
 - A user has at most one active session. Sessions are personal and have no `room_id`;
   one session counts in every room the user belongs to. (ADR-0003)
+- A user's sessions never overlap, edited and manually added sessions included. Enforced
+  by a database exclusion constraint. (ADR-0011)
+- Rooms can have several owners. Any owner can make members owners and remove or demote
+  other owners, except the creator-role holder. Exactly one member holds the creator role;
+  only they can delete the room, and they can hand the role over at any time (and must
+  when leaving). A room with no members is deleted automatically. Role rules are enforced
+  in the database. (ADR-0014)
 - Elapsed time = server now − `started_at` − pauses. Never count ticks. (ADR-0003)
 - Room statistics are derived from sessions and membership history, never stored as
   counters. Never show a sum across rooms. (ADR-0005)

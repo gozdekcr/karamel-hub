@@ -1,6 +1,6 @@
 # ADR-0013: Room model with multiple owners
 
-- **Status:** Accepted
+- **Status:** Superseded by [ADR-0014](0014-room-model-creator-role.md)
 - **Date:** 2026-11-22
 - **Supersedes:** [ADR-0004](0004-room-model.md)
 

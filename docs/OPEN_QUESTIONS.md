@@ -18,9 +18,11 @@ in ADRs stay valid.
 | 12 | Phase order after Phase 0 | — | Draft: solo core → stats/streak → rooms/realtime → coins/cats → cosmetics |
 | 13 | Upper bound for a room's member limit | ADR-0012, 0006 | Owners choose the limit; what is the maximum allowed value? |
 | 14 | What happens if an owner lowers the limit below the current member count? | ADR-0012 | E.g. refuse the change, or allow it and only block new joins |
-| 15 | Per-user room limit (how many rooms one user can join or own) | ADR-0013, 0006 | Each room is one Presence channel for the user |
+| 15 | Per-user room limit (how many rooms one user can join or own) | ADR-0014, 0006 | Each room is one Presence channel for the user |
 | 16 | Where is the heartbeat stored? | ADR-0007 | E.g. a column on the active session or a separate table; decided in database design |
-| 17 | Can an owner remove another owner, or take away their owner role? | ADR-0013 | WhatsApp-like admin model was chosen; this detail was not specified |
-| 18 | Does the room creator have extra protection (e.g. cannot be removed or demoted by other owners)? | ADR-0013 | |
 
 Resolved: #2 → ADR-0011 (sessions never overlap). #4 → ADR-0012 (room member limit).
+#17–#23 → ADR-0014 (owner removal, creator role and protection, empty rooms, deleting
+rooms, no deletion notification). Some answers changed during the discussion; ADR-0014
+holds the final rules: the creator role can be handed over at any time (and must be when
+leaving), empty rooms are deleted, and only the creator-role holder can delete a room.

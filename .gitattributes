@@ -1,0 +1,2 @@
+# Normalize line endings: text files are stored and checked out with LF on every OS.
+* text=auto eol=lf

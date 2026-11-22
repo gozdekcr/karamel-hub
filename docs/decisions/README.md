@@ -1,7 +1,8 @@
 # Architecture Decision Records
 
-One file per decision. Only `Accepted` ADRs are binding. An Accepted ADR's decision is
-never edited; a change is a new ADR that supersedes it. Use [0000-template.md](0000-template.md).
+One file per decision. Only `Accepted` ADRs are binding. A committed Accepted ADR's
+decision is never edited; a change is a new ADR that supersedes it. An ADR that has not
+been committed yet may be edited directly. Use [0000-template.md](0000-template.md).
 
 | ADR | Title | Status |
 | --- | --- | --- |
@@ -17,4 +18,5 @@ never edited; a change is a new ADR that supersedes it. Use [0000-template.md](0
 | [0010](0010-i18n-principle.md) | i18n principle | Accepted |
 | [0011](0011-sessions-never-overlap.md) | Sessions never overlap | Accepted |
 | [0012](0012-room-member-limit.md) | Room member limit | Accepted |
-| [0013](0013-room-model-multiple-owners.md) | Room model with multiple owners | Accepted |
+| [0013](0013-room-model-multiple-owners.md) | Room model with multiple owners | Superseded by [0014](0014-room-model-creator-role.md) |
+| [0014](0014-room-model-creator-role.md) | Room model with multiple owners and a creator role | Accepted |

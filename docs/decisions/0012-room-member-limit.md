@@ -5,14 +5,14 @@
 
 ## Context
 
-Anyone with a room's invite link can join it (ADR-0013). Rooms need a size limit, but an
+Anyone with a room's invite link can join it (ADR-0014). Rooms need a size limit, but an
 owner may later want to add someone even when the room is full.
 
 ## Decision
 
 - When creating a room, the creator **chooses a member limit** for that room.
 - The room's **current owners** can **change the limit after the room is created**, for
-  example raise it to let one more person join. A room can have several owners (ADR-0013).
+  example raise it to let one more person join. A room can have several owners (ADR-0014).
 - When the room has reached its limit, new joins are refused.
 - The limit is **checked in the database**, so two people joining at the same time cannot
   exceed it (ADR-0001).
@@ -26,7 +26,7 @@ owner may later want to add someone even when the room is full.
 ## Consequences
 
 - Rooms store their own limit; the join path checks it in the database.
-- Changing the limit is an owner action, like regenerating the link (ADR-0013).
+- Changing the limit is an owner action, like regenerating the link (ADR-0014).
 
 ## Open points
 

@@ -16,8 +16,12 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | --- | --- |
 | Platform | Desktop browser only. No mobile app or PWA for now. |
 | Users | Multi-user with public sign-up. Solo use is fully supported; rooms are optional. |
-| Rooms | Persistent. A user can join several rooms. Anyone with the invite link can join. |
-| Room owners | The creator is the first owner. A room can have several owners; any owner can make a member an owner (like WhatsApp group admins). |
+| Rooms | Persistent while they have members. A user can join several rooms. Anyone with the invite link can join. |
+| Room owners | A room can have several owners; any owner can make a member an owner and remove or demote other owners (like WhatsApp group admins). Permission table in ADR-0014. |
+| Creator role | Exactly one member holds the creator role (first the room's creator; always an owner). Nobody can remove or demote them. Only they can delete the room. They can hand the role over at any time (and must when leaving); the receiver becomes an owner if needed, the previous holder stays an owner. |
+| Leaving a room | Members and owners leave freely; the creator-role holder hands the role over first. The last person sees a warning and the room is deleted. |
+| Empty rooms | A room with no members is deleted automatically and cannot be joined again. |
+| Deleting a room | Only the creator-role holder, at any time, without confirmation. The room simply disappears; nobody is notified. |
 | Room size | The creator chooses a member limit; current owners can change it later. Checked in the database. |
 | Sessions | A user's sessions never overlap, including edited and manually added sessions. |
 | Room stats | Each room shows per-member time, room total time and room shared time. |
@@ -44,7 +48,8 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0010](decisions/0010-i18n-principle.md) | Key-based i18n, feature namespaces, TR + EN | Accepted |
 | [0011](decisions/0011-sessions-never-overlap.md) | A user's sessions never overlap; DB exclusion constraint | Accepted |
 | [0012](decisions/0012-room-member-limit.md) | Per-room member limit chosen by the creator, changeable by owners, checked in the DB | Accepted |
-| [0013](decisions/0013-room-model-multiple-owners.md) | Persistent rooms, invite link, membership history, multiple owners | Accepted |
+| [0013](decisions/0013-room-model-multiple-owners.md) | Persistent rooms, invite link, membership history, multiple owners | Superseded by 0014 |
+| [0014](decisions/0014-room-model-creator-role.md) | Multiple owners plus one transferable creator role (protection, deletes the room); empty rooms deleted; permission table | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
@@ -56,7 +61,7 @@ TanStack Query (accepted), an i18n library (to be researched).
 | Area | Status |
 | --- | --- |
 | Product idea and scope | Done (this document) |
-| Core architecture decisions | Done (ADR-0001 … 0013) |
+| Core architecture decisions | Done (ADR-0001 … 0014) |
 | Product research | Not started |
 | Technical research | Not started |
 | Database design | Not started |
