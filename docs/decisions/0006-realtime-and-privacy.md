@@ -33,4 +33,6 @@ database (a view exposing only time fields and/or RLS), not only in the UI.
 ## Consequences
 
 - Presence can lag a few seconds when a tab closes; acceptable.
-- A user in many rooms joins many channels; the member/room limits keep this small.
+- A user in many rooms joins many channels. Each room has its own member limit
+  (ADR-0012), but the upper bound of that limit and a per-user room limit are still open
+  (OPEN_QUESTIONS #13, #15).

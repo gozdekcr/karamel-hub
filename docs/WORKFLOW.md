@@ -15,14 +15,23 @@
 
 ## Task loop (every Claude Code task)
 
-1. The user writes the prompt and saves it as `docs/prompts/NNN-short-name.md`.
+1. The user writes the prompt. At the start of the task, Claude Code saves it as
+   `docs/prompts/NNN-short-name.md` — full content, in English (translated if needed).
 2. Claude Code reads `CLAUDE.md`, does the task, and ends with the report format in `CLAUDE.md`.
 3. Larger tasks (a phase or a feature) get a report in `docs/reports/NNN-short-name.md`:
    what was done, what was verified and how, known issues.
-4. The user reviews. Fixes go into a follow-up prompt (`NNN-short-name-fix.md`).
+4. The user reviews. Fixes and any other new round of the same task go into a new prompt
+   with the next version suffix (see below).
 5. When approved: commit with a Conventional Commit message and update `CURRENT_STATE.md`.
 
-Numbering is shared between prompts and reports so they can be matched (`003` ↔ `003`).
+### File naming for prompts and reports
+
+- Prompts and reports are named `NNN-short-name.md` (e.g. `003-product-research.md`).
+- Claude Code assigns `NNN` sequentially: a new task takes the next free number.
+- Every new round of the same task, fixes included, gets the next version suffix:
+  `NNN-short-name-v2.md`, `NNN-short-name-v3.md`, … There is no `-fix` suffix.
+- A prompt and its report carry the same name (`003-product-research-v2.md` ↔
+  `003-product-research-v2.md`).
 
 ## Phases
 
@@ -33,7 +42,7 @@ Numbering is shared between prompts and reports so they can be matched (`003` �
 
 ### Phase 0 order (draft)
 
-1. Core architecture decisions — done (ADR-0001 … 0010)
+1. Core architecture decisions — done (ADR-0001 … 0013)
 2. Product research → `PRODUCT_RESEARCH.md`
 3. Technical research → `TECH_RESEARCH.md` (closes open library questions)
 4. Gamification design → `GAMIFICATION.md`

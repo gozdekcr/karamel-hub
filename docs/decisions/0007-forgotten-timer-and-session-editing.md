@@ -34,5 +34,6 @@ Cheating is not a design goal; coins exist for fun.
 ## Open points
 
 - Heartbeat interval and "large gap" threshold (OPEN_QUESTIONS #1).
-- No overlapping sessions after edits/manual entries (OPEN_QUESTIONS #2, proposed: yes).
+- Overlapping sessions after edits/manual entries: resolved by
+  [ADR-0011](0011-sessions-never-overlap.md) — they are rejected.
 - How rewards react to edits (OPEN_QUESTIONS #3).

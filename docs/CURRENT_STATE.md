@@ -17,6 +17,9 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Platform | Desktop browser only. No mobile app or PWA for now. |
 | Users | Multi-user with public sign-up. Solo use is fully supported; rooms are optional. |
 | Rooms | Persistent. A user can join several rooms. Anyone with the invite link can join. |
+| Room owners | The creator is the first owner. A room can have several owners; any owner can make a member an owner (like WhatsApp group admins). |
+| Room size | The creator chooses a member limit; current owners can change it later. Checked in the database. |
+| Sessions | A user's sessions never overlap, including edited and manually added sessions. |
 | Room stats | Each room shows per-member time, room total time and room shared time. |
 | Privacy in rooms | Members see only study time (studying or not, durations). Never courses or tasks. |
 | Timer in rooms | The user starts one personal timer; it shows and counts in all their rooms. |
@@ -32,13 +35,16 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0001](decisions/0001-backend-supabase.md) | Supabase (Auth, PostgreSQL, Realtime); backend logic in the database | Accepted |
 | [0002](decisions/0002-frontend-layering.md) | `domain/` · `data/` · `features/` layering | Accepted |
 | [0003](decisions/0003-timer-and-session-model.md) | One active personal session; `started_at` + pauses; server time | Accepted |
-| [0004](decisions/0004-room-model.md) | Persistent rooms, membership history, invite link, owner transfer | Accepted |
+| [0004](decisions/0004-room-model.md) | Persistent rooms with a single owner | Superseded by 0013 |
 | [0005](decisions/0005-room-statistics.md) | Room stats derived from sessions; total vs shared (sweep-line) | Accepted |
 | [0006](decisions/0006-realtime-and-privacy.md) | Presence per room, status from active session, time-only visibility | Accepted |
 | [0007](decisions/0007-forgotten-timer-and-session-editing.md) | No auto-stop; heartbeat suggestion; free session editing | Accepted |
 | [0008](decisions/0008-coin-ledger.md) | Coin ledger; rewards granted by DB functions | Accepted |
 | [0009](decisions/0009-server-state-tanstack-query.md) | TanStack Query for server state | Accepted |
 | [0010](decisions/0010-i18n-principle.md) | Key-based i18n, feature namespaces, TR + EN | Accepted |
+| [0011](decisions/0011-sessions-never-overlap.md) | A user's sessions never overlap; DB exclusion constraint | Accepted |
+| [0012](decisions/0012-room-member-limit.md) | Per-room member limit chosen by the creator, changeable by owners, checked in the DB | Accepted |
+| [0013](decisions/0013-room-model-multiple-owners.md) | Persistent rooms, invite link, membership history, multiple owners | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
@@ -50,7 +56,7 @@ TanStack Query (accepted), an i18n library (to be researched).
 | Area | Status |
 | --- | --- |
 | Product idea and scope | Done (this document) |
-| Core architecture decisions | Done (ADR-0001 … 0010) |
+| Core architecture decisions | Done (ADR-0001 … 0013) |
 | Product research | Not started |
 | Technical research | Not started |
 | Database design | Not started |

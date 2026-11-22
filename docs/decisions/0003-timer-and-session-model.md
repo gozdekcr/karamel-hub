@@ -36,4 +36,5 @@ A user may be a member of several rooms at once.
 
 ## Open points
 
-- Whether sessions may overlap after edits/manual entries (OPEN_QUESTIONS #2, proposed: no).
+- Overlapping sessions: resolved by [ADR-0011](0011-sessions-never-overlap.md) — a user's
+  sessions never overlap.

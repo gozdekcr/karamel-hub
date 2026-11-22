@@ -24,6 +24,10 @@ unless the user's prompt explicitly starts Phase 1.
 ## Rules
 
 - The user's direct instructions take priority over these documents.
+- At the start of every task, save the user's prompt as `docs/prompts/NNN-short-name.md`:
+  the full content, translated to English if written in another language (the repo is
+  English only). Assign `NNN` yourself, sequentially (next free number); a new round of
+  the same task keeps its number and adds `-v2`, `-v3` (see `docs/WORKFLOW.md`).
 - Do not finalize decisions on your own. New ideas are written as `Proposed` (in an ADR or
   in `OPEN_QUESTIONS.md`) and wait for the user's approval.
 - Do not edit the decision of an `Accepted` ADR. If it changes, write a new ADR that
@@ -42,6 +46,7 @@ unless the user's prompt explicitly starts Phase 1.
 
 - Talk to the user in Turkish.
 - Write documentation, code, comments, commit messages and identifiers in English.
+  Everything in the repo is English only (saved prompts included).
 - UI text is never hardcoded; it uses i18n keys (TR + EN). See ADR-0010.
 
 ## Architecture invariants (from Accepted ADRs)

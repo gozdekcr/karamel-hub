@@ -1,6 +1,6 @@
 # ADR-0004: Room model
 
-- **Status:** Accepted
+- **Status:** Superseded by [ADR-0013](0013-room-model-multiple-owners.md)
 - **Date:** 2026-11-22
 
 ## Context
@@ -38,4 +38,4 @@ in several rooms, and joining by link for anyone who has it. There is no friends
 
 ## Open points
 
-- Room member limit (OPEN_QUESTIONS #4).
+- Room member limit: resolved by [ADR-0012](0012-room-member-limit.md).
