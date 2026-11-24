@@ -38,6 +38,12 @@ Labels: **[not verified]** = a technical assumption to check in Phase 1.
   one place (ADR-0001, ADR-0008, ADR-0014). Direct writes are allowed only where no rule
   depends on them (marked in §4).
 - **Names of catalog entries** are i18n keys, not stored text (ADR-0010).
+- **Grants are explicit** (task 017-v2). New tables, sequences and functions in `public` give
+  no rights to `anon`, `authenticated` or `service_role` by default, locally and on the hosted
+  project (created with "Automatically expose new tables" off). Each table migration grants
+  what the access table (§4) needs, e.g. `grant select, insert, update, delete on table
+  public.<table> to authenticated`; RLS then decides the rows. Each API function (§5) gets
+  `grant execute … to authenticated`. `anon` gets nothing.
 
 ---
 

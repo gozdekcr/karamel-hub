@@ -1,6 +1,9 @@
 # Private notes (personal to-do lists, scratch thoughts) — never committed
 notes/
 
+# Hosted database dumps (contain auth.users: emails and password hashes) — never committed
+backups/
+
 # Environment and secrets
 .env
 .env.*

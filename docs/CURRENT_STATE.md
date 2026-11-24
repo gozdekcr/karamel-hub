@@ -1,6 +1,6 @@
 # Karamel-hub — current state (single source of truth)
 
-Last updated: 2026-11-24 · **Phase 1 in progress** ([ROADMAP.md](ROADMAP.md)); P1-01 … P1-03 done (start checks, scaffold, database base) · No features yet
+Last updated: 2026-11-24 · **Phase 1 in progress** ([ROADMAP.md](ROADMAP.md)); P1-01 … P1-03b done (start checks, scaffold, database base, hosted project) · No features yet
 
 If this document conflicts with another document, this document and the code win.
 Undecided items live in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
@@ -53,7 +53,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Visual direction | Pastel, low contrast, large rounded cards (26 px), ring charts, personal greeting. Palette from Karamel (UI_UX.md §6.2); one font, Nunito, self-hosted (headings 700–800, body 400–800, timer digits included; Fredoka removed because it lacks ğ Ğ İ ş Ş); clickable areas ≥ 44 px; minimum window width 1024 px. Contrast rules, calendar tones, errors (pink + icon), reduced motion and visible focus in UI_UX.md §6. |
 | Gamification later | Four more cats (draft art kept on the user's computer, deliberately not in the repo; ADR-0028), eyes-slot items, outfit slot, cat room, 150-hour and 30-day streak cats. |
 | Phase order | 1 Core → 2 Tracking → 3 Rooms → 4 Karamel → 5 Polish and public launch (custom SMTP, email confirmation, 🚀 security items, privacy review); account deletion comes later. The user uses the app from Phase 1; Phase 4 includes a one-time backfill of coins and achievements. Tasks in [ROADMAP.md](ROADMAP.md). |
-| Where the app runs | **A hosted Supabase project from Phase 1**; the user's friends can use the app from Phase 1, so its data is real and the hosted database is never reset. Local development and tests stay on the local stack. The frontend runs on **Cloudflare Workers with static assets**. Hosted setup (P1-03b) and deployment (P1-14) are Phase 1 tasks; the hosted data is dumped before each `db push` (ADR-0030). |
+| Where the app runs | **A hosted Supabase project from Phase 1**; the user's friends can use the app from Phase 1, so its data is real and the hosted database is never reset. Local development and tests stay on the local stack. The frontend runs on **Cloudflare Workers with static assets**. The hosted project exists (`karamel-hub`, Europe, Free plan, "Automatically expose new tables" off) and has every migration (P1-03b); deployment is P1-14. The hosted data is dumped to the git-ignored `backups/` before each `db push` (ADR-0030); the Free plan has no automatic backups and pauses after 1 week without activity. |
 
 ## Architecture decisions
 

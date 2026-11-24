@@ -181,7 +181,8 @@ signed-in user, as a second user, and as `anon`.
 - [x] Every table in the exposed schema has RLS enabled (R1). Test since P1-03
       (`supabase/tests/database_base_test.sql`); it covers every later table automatically.
 - [ ] `anon` has no table privileges and cannot execute any function (R11, F3). P1-03: default
-      privileges and tests for `public` and `private`; the per-table check comes with the tables.
+      privileges and tests for `public` and `private`; P1-03b: no default grants to `anon`,
+      `authenticated` or `service_role` in `public` (explicit grants per table and function).
 - [ ] Every `security definer` function has `search_path = ''` (F2).
 - [ ] No function is executable by `PUBLIC`; only API functions are executable by
       `authenticated` (F3, F4). P1-03: no `PUBLIC`/`anon` execute in `public` and `private`
@@ -238,18 +239,26 @@ signed-in user, as a second user, and as `anon`.
 
 ### 3.4 Setup checks (not pgTAP)
 
-- [ ] Realtime "Allow public access" is disabled on the hosted project (T1).
+- [x] Realtime "Allow public access" is disabled on the hosted project (T1). Done in P1-03b
+      (dashboard: Realtime → Settings → "Allow public access to channels"). The dashboard
+      then warns that `realtime.messages` has no RLS policies: correct until Phase 3, whose
+      migration adds them (ADR-0017); never add them with the dashboard's "Create policy".
 - [ ] The frontend bundle contains no secret key; only `VITE_SUPABASE_URL` and the
       publishable key are `VITE_` variables (K1, K2).
 - [ ] `*.local` is in `.gitignore`; `.env.example` has no real values (K3).
 - [ ] The new key format is used: the frontend has only the publishable key
       (`sb_publishable_…`); legacy `anon` / `service_role` keys are not used (K4, ADR-0027).
 - [ ] No `dangerouslySetInnerHTML` with user content (a lint rule or a code search) (X1).
-- [ ] `pgcrypto` (`gen_random_bytes`) is available on the local stack (verified in P1-01,
-      task 013) and the hosted project (checked in P1-03b) (I1, ADR-0027).
+- [x] `pgcrypto` (`gen_random_bytes`) is available on the local stack (verified in P1-01,
+      task 013) and the hosted project (pgcrypto 1.3 in schema `extensions`, P1-03b, task
+      017) (I1, ADR-0027).
 - [ ] New sign-ups are turned off on the hosted project once the friends have signed up,
       and a new sign-up is refused; the local stack keeps sign-ups on for tests (S6,
-      ADR-0031, P1-14).
+      ADR-0031, P1-14). Where (located in P1-03b): Authentication → Sign In / Providers →
+      "Allow new users to sign up" → off → Save. Still on until P1-14.
+- [x] Hosted Auth settings (P1-03b, ADR-0027): Email → "Confirm email" off; access token
+      expiry 3600 s (Authentication → Sessions); Data API "Automatically expose new tables"
+      off (Integrations → Data API → Settings).
 
 ---
 

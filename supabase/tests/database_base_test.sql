@@ -1,8 +1,10 @@
 -- P1-03 Database base: extensions, the private schema, RLS everywhere in the exposed
 -- schemas, and default privileges (SECURITY.md §3.1: R1, R11, F3, F4).
+-- Since P1-03b (task 017-v2) new objects in "public" get no rights for anon, authenticated
+-- or service_role until a migration grants them, locally and on the hosted project.
 -- Everything runs inside a transaction that is rolled back, so probe objects never stay.
 begin;
-select plan(19);
+select plan(23);
 
 -- Extensions ---------------------------------------------------------------------------
 select has_extension('extensions', 'btree_gist', 'btree_gist is installed in schema extensions');
@@ -41,16 +43,40 @@ create temporary view functions_open_to_anon as
 select is_empty('select name from tables_without_rls', 'every table in the exposed schemas has RLS enabled');
 select is_empty('select name from functions_open_to_anon', 'no function in public or private is executable by anon or PUBLIC');
 
+-- The default privileges themselves: in "public", objects created by postgres give no
+-- right to anyone but postgres (tables, sequences, functions), and functions in every
+-- schema give no right to PUBLIC.
+select is_empty($$
+  select d.defaclobjtype::text || ':' || coalesce(r.rolname, 'PUBLIC')
+  from pg_default_acl d
+  cross join lateral aclexplode(d.defaclacl) a
+  left join pg_roles r on r.oid = a.grantee
+  where d.defaclrole = 'postgres'::regrole
+    and (d.defaclnamespace = 'public'::regnamespace or d.defaclnamespace = 0)
+    and a.grantee <> 'postgres'::regrole
+$$, 'default privileges in public grant nothing to anon, authenticated, service_role or PUBLIC');
+
 -- Default privileges for objects that later migrations create ---------------------------
 -- A probe table created the way a migration would create one.
 create table public._probe_table (id int);
 select ok(
-  not has_table_privilege('anon', 'public._probe_table', 'select, insert, update, delete'),
+  not has_table_privilege('anon', 'public._probe_table', 'select, insert, update, delete, truncate, references, trigger'),
   'new table in public: anon has no privileges'
 );
 select ok(
-  has_table_privilege('authenticated', 'public._probe_table', 'select'),
-  'new table in public: authenticated keeps its grant (RLS decides the rows)'
+  not has_table_privilege('authenticated', 'public._probe_table', 'select, insert, update, delete, truncate, references, trigger'),
+  'new table in public: authenticated has no privileges until a migration grants them'
+);
+select ok(
+  not has_table_privilege('service_role', 'public._probe_table', 'select, insert, update, delete, truncate'),
+  'new table in public: service_role has no privileges until a migration grants them'
+);
+-- What every table migration does (P1-03b convention).
+grant select, insert, update, delete on table public._probe_table to authenticated;
+select ok(
+  has_table_privilege('authenticated', 'public._probe_table', 'select, insert, update, delete')
+    and not has_table_privilege('authenticated', 'public._probe_table', 'truncate'),
+  'an explicit grant gives authenticated exactly select, insert, update, delete'
 );
 -- The R1 check really finds a table without RLS ...
 select is((select array_agg(name) from tables_without_rls), array['public._probe_table'],
@@ -62,7 +88,9 @@ select is_empty('select name from tables_without_rls', 'the RLS check passes onc
 -- A probe function in public (where API functions live).
 create function public._probe_api() returns int language sql as 'select 1';
 select ok(not has_function_privilege('anon', 'public._probe_api()', 'execute'), 'new function in public: anon cannot execute it');
-select ok(has_function_privilege('authenticated', 'public._probe_api()', 'execute'), 'new function in public: authenticated can execute it');
+select ok(not has_function_privilege('authenticated', 'public._probe_api()', 'execute'), 'new function in public: authenticated cannot execute it without a grant');
+grant execute on function public._probe_api() to authenticated;
+select ok(has_function_privilege('authenticated', 'public._probe_api()', 'execute'), 'an explicit grant lets authenticated execute an API function');
 
 -- A probe function in private (where helpers and internal functions live).
 create function private._probe_internal() returns int language sql as 'select 1';
