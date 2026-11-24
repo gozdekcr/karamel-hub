@@ -17,9 +17,9 @@ each other's study time in realtime. A cat-collection system rewards studying.
 
 ## Current phase
 
-**Phase 0 — research, architecture and planning. No application code.**
-Do not scaffold the project, create `package.json`, install packages or write app code
-unless the user's prompt explicitly starts Phase 1.
+**Phase 1 — Core** (started 2026-11-24). Tasks and their order are in `docs/ROADMAP.md`.
+Code, project setup and package installs are allowed, within the scope of the task in the
+user's prompt.
 
 ## Rules
 
@@ -81,6 +81,7 @@ unless the user's prompt explicitly starts Phase 1.
   calculations run only in SQL. Exceptions (`minutes ÷ 2`, room shared time) also exist in
   TS and share test cases in Vitest and pgTAP. (ADR-0024)
 - `profiles` holds only the display name; private settings live in owner-only `user_settings`. (ADR-0025)
+- The hosted database is never reset; its data is dumped before each `db push`. (ADR-0030)
 
 ## Final report format
 

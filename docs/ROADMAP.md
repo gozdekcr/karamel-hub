@@ -1,6 +1,6 @@
 # Roadmap (Phase 1+)
 
-Last updated: 2026-11-23 · **Status: approved by the user (task 012-v2)**
+Last updated: 2026-11-24 · **Status: approved by the user (task 012-v2); changed in task 013-v2 (hosted from Phase 1, public launch in Phase 5)**
 
 The **phase order** was decided by the user in task 012 (it resolves OPEN_QUESTIONS #12),
 and the roadmap was approved in task 012-v2. The tasks inside each phase are Claude's
@@ -20,7 +20,7 @@ The design documents are the source for every task: [DATABASE.md](DATABASE.md),
 - [Phase 2 — Tracking](#phase-2--tracking)
 - [Phase 3 — Rooms](#phase-3--rooms)
 - [Phase 4 — Karamel](#phase-4--karamel)
-- [Phase 5 — Polish and going live](#phase-5--polish-and-going-live)
+- [Phase 5 — Polish and public launch](#phase-5--polish-and-public-launch)
 - [Later (after Phase 5)](#later-after-phase-5)
 - [Phase 0 end check](#phase-0-end-check)
 
@@ -31,21 +31,24 @@ flowchart LR
     P1["Phase 1<br/>Core"] --> P2["Phase 2<br/>Tracking"]
     P2 --> P3["Phase 3<br/>Rooms"]
     P3 --> P4["Phase 4<br/>Karamel"]
-    P4 --> P5["Phase 5<br/>Polish + going live"]
+    P4 --> P5["Phase 5<br/>Polish + public launch"]
     P5 --> L["Later"]
 ```
 
 | Phase | In one line | Tasks |
 | --- | --- | --- |
-| 1 Core | Setup and checks, auth, layout, courses and tasks, sessions and the timer | 13 |
+| 1 Core | Setup and checks, hosted project, auth, layout, courses and tasks, sessions and the timer, deployment for the friend group | 15 |
 | 2 Tracking | Daily minutes and streak in SQL, statistics, goals, Home cards, session history and editing | 7 |
 | 3 Rooms | Rooms, roles, invite links, Realtime, room statistics, chat, room settings | 9 |
 | 4 Karamel | Catalog, ledger and rewards, one-time backfill, shop and dressing, placement, achievements | 9 |
-| 5 Polish | First login, notifications, heartbeat, accessibility, deployment for the friend group | 6 |
+| 5 Polish + public launch | First login, notifications, heartbeat, accessibility; SMTP and email confirmation, 🚀 security items, privacy review, public launch | 10 |
 
 **The user uses the app from Phase 1 on** (task 012-v2). So data from Phase 1 is real:
-migrations must keep existing data, and the database holding it is never reset. Where the
-app runs before hosting is decided: OPEN_QUESTIONS #78 (Proposed). Sessions recorded
+migrations must keep existing data, and the database holding it is never reset. **A hosted
+Supabase project is used from Phase 1 and friends can use the app from Phase 1** (task 013,
+ADR-0030), with **new sign-ups closed** once the friends have signed up; the app opens to
+the public in Phase 5 with email-confirmed sign-up (ADR-0031). Hosted setup and deployment
+are therefore in Phase 1 (P1-03b, P1-14; #79, accepted in task 013-v2). Sessions recorded
 before Phase 4 get their coins and achievements from a **one-time backfill** in Phase 4
 (P4-06).
 
@@ -60,6 +63,8 @@ From [WORKFLOW.md](WORKFLOW.md), applied to every task below:
 - **RLS policies exist for every new table**; database rules have **pgTAP** tests
   (ADR-0018, SECURITY.md §3).
 - `CURRENT_STATE.md` and related ADRs are updated.
+- From P1-03b on: before each `db push` to the hosted project, its data is dumped to a
+  git-ignored folder (ADR-0030). Migrations keep data; the hosted database is never reset.
 - The user commits; Claude only suggests the message (CLAUDE.md).
 
 ---
@@ -69,25 +74,32 @@ From [WORKFLOW.md](WORKFLOW.md), applied to every task below:
 **Goal:** a signed-in user can manage courses and tasks and study with a Pomodoro or free
 timer; sessions are stored correctly.
 
-**Scope:** start-of-Phase-1 checks; project scaffold; local Supabase; profiles and settings;
-sign-in and sign-up; app layout; courses and tasks; sessions, pauses and details; timer
-(Pomodoro 25/5 and free); basic settings (display name, language, timezone).
+**Scope:** start-of-Phase-1 checks; project scaffold; local Supabase; hosted Supabase
+project; profiles and settings; sign-in and sign-up; app layout; courses and tasks;
+sessions, pauses and details; timer (Pomodoro 25/5 and free); basic settings (display name,
+language, timezone); deployment to Cloudflare for the friend group.
 
 **Out of scope:** statistics, goals, streak (Phase 2); session editing and manual sessions
 (Phase 2); rooms and roommate visibility (Phase 3); coins, rewards, Karamel dressing
-(Phase 4); browser notifications, heartbeat, first-login flow (Phase 5); hosting.
+(Phase 4); browser notifications, heartbeat, first-login flow (Phase 5); public launch,
+custom SMTP and email confirmation (Phase 5, ADR-0031).
 
 **Relies on:** ADR-0001, 0002, 0003, 0009, 0010, 0011, 0015, 0016, 0018, 0019, 0025,
-0027, 0029; UI_UX.md §1, §2.1–§2.3, §2.9, §3.3, §6; DATABASE.md §1.1–§1.3, §3, §5.1.
+0027, 0029, 0030, 0031; UI_UX.md §1, §2.1–§2.3, §2.9, §3.3, §6; DATABASE.md §1.1–§1.3,
+§3, §5.1; SECURITY.md §3.4.
 
 **Dependencies:** OPEN_QUESTIONS #41 (Node.js version) and #78 (where the app runs with
-real data) are answered in task P1-01.
+real data) were answered in task P1-01 (ADR-0030: Node 26; hosted project from Phase 1).
+Also decided in task 013-v2: Nunito as the only font (#80, #81), Cloudflare Workers (#9),
+roadmap changes (#79). Creating the hosted project, the Cloudflare account and each
+deployment needs the user's explicit permission; the user creates the accounts.
 
 | Task | What | Tests |
 | --- | --- | --- |
 | **P1-01** Start checks | User decides the Node.js version (#41). Check on the local stack: `btree_gist` and `pgcrypto` available; whether `supabase test db` reads `supabase/tests/`; new key format (`sb_publishable_…`); Fredoka and Nunito cover Turkish characters (ç ğ ı İ ö ş ü) and have tabular digits. Report only; ADRs updated where an assumption changes | — (report with evidence) |
-| **P1-02** Scaffold | Vite + React + TypeScript; folders of ADR-0029; import-rule lint; Vitest and Playwright configs; TanStack Query provider; React Router (declarative); i18next with TR/EN namespaces; `.env.example`, `*.local` ignored; fonts self-hosted; art moved from `docs/assets/` to `public/art/` | Typecheck, one Vitest and one Playwright smoke test |
+| **P1-02** Scaffold | Vite + React + TypeScript; folders of ADR-0029; import-rule lint; Vitest and Playwright configs; TanStack Query provider; React Router (declarative); i18next with TR/EN namespaces; `.env.example`, `*.local` ignored; Nunito self-hosted (the only font, UI_UX.md §6.3); art moved from `docs/assets/` to `public/art/` | Typecheck, one Vitest and one Playwright smoke test |
 | **P1-03** Database base | `supabase init`; first migration: extensions, non-exposed schema for helpers, default `EXECUTE` revoked from `PUBLIC` and `anon` (ADR-0027) | pgTAP: every exposed table has RLS; no function executable by `PUBLIC`/`anon` |
+| **P1-03b** Hosted project | The user creates the hosted Supabase project (free plan) following Claude's steps; `supabase link`; P1-03's migration pushed; SECURITY.md §3.4 hosted settings (Realtime public access off, email confirmation off, JWT 1 hour, new keys only); backup with `supabase db dump --data-only` to a git-ignored folder, tested (#79); the "close new sign-ups" step written down and located in the dashboard (the user does it after friends sign up, see P1-14; ADR-0031) | `btree_gist` and `pgcrypto` on the hosted project; §3.4 hosted checks; the dump runs and contains the expected tables |
 | **P1-04** Profiles and settings | `profiles`, `user_settings` (goal columns included, unused until Phase 2), creation at sign-up, RLS | pgTAP: self-only settings; profile readable by self |
 | **P1-05** Sign-in and sign-up | Auth screens; display name asked at sign-up; route guard; sign-out | Playwright: sign up, sign in, sign out |
 | **P1-06** App shell | Left menu (static Karamel image; dressing comes in Phase 4), timer-strip slot, palette and type tokens, shared cards, buttons, rings (UI_UX.md §6) | Vitest for any helper; visual check in the report |
@@ -98,6 +110,7 @@ real data) are answered in task P1-01.
 | **P1-11** Timer logic | `domain/timer`: elapsed time from `started_at` and pauses; Pomodoro phases 25/5; server-time offset; live coin display deferred to Phase 4 | Vitest: phases, pauses, clock offset |
 | **P1-12** Timer UI | Timer card (minimal Home), timer strip on other pages, mode choice, optional course/task, Pomodoro break and "Continue" (#68), in-page phase change only | Playwright: start, pause, resume, stop; Pomodoro phase (with a fake clock) |
 | **P1-13** Settings (basic) | Display name, language, timezone (UI_UX.md §2.9) | Playwright: change language; Vitest/Zod for limits |
+| **P1-14** Deployment for the friend group | Cloudflare Workers with static assets (ADR-0030): Wrangler config with the SPA fallback, build with the hosted URL and publishable key; the user creates the Cloudflare account; deployment with the user's permission; all migrations pushed (backup first); the URL shared with friends only; the user closes new sign-ups once friends have signed up (ADR-0031) | SECURITY.md §3.4 bundle check (no secret key); smoke test on the deployed app: sign up, sign in, run a session; after closing, a new sign-up is refused |
 
 **Acceptance criteria:**
 
@@ -107,6 +120,9 @@ real data) are answered in task P1-01.
   session, pause and resume, and stop; the session is stored with server times.
 - A second active session or an overlapping session is refused by the database.
 - Another user cannot read any of the user's rows (pgTAP).
+- The app runs on Cloudflare with the hosted project; the SECURITY.md §3.4 checks pass on
+  the hosted project; the backup command is tested; new sign-ups are closed after the
+  friends have signed up.
 - The definition of done holds for every task.
 
 ---
@@ -229,23 +245,26 @@ before P4-01 measures the images.
 
 ---
 
-## Phase 5 — Polish and going live
+## Phase 5 — Polish and public launch
 
-**Goal:** the app is ready for the friend group and runs on a hosted project.
+**Goal:** the app is polished and opens to the public with email-confirmed sign-up
+(ADR-0031).
 
 **Scope:** first-login flow; Pomodoro notifications; heartbeat and the forgotten-timer
-suggestion; accessibility check; hosting and deployment for the friend group.
+suggestion; accessibility check; research for SMTP and the domain; custom SMTP and email
+confirmation; the 🚀 items of SECURITY.md and ADR-0027 (rate limits, browser hardening,
+Auth hardening, the removal block #48); privacy and legal review (#32); opening sign-ups.
 
-**Out of scope:** everything marked 🚀 "before public launch" in SECURITY.md and
-ADR-0027 (custom SMTP, rate limits, security headers, Auth hardening, #48, #32). "Going
-live" here means the friend group, not a public release (CURRENT_STATE "Release").
+**Out of scope:** account deletion (Later), unless the privacy review (#32) requires it
+before the launch.
 
-**Relies on:** ADR-0007, 0016, 0017, 0019, 0027; UI_UX.md §3.1, §3.3, §3.4, §6;
-SECURITY.md §3.4.
+**Relies on:** ADR-0007, 0016, 0017, 0019, 0027, 0030, 0031; UI_UX.md §3.1, §3.3, §3.4,
+§6; SECURITY.md (🚀 items, §3.4).
 
 **Dependencies:** Phases 1–4. **Must be answered in this phase:** #1 (heartbeat gap
-threshold, from testing) and #9 (hosting, deferred until this stage). Creating the hosted
-Supabase project and the deployment needs the user's explicit permission (CLAUDE.md).
+threshold, from testing), #32 (privacy, legal, age policy), #48 (removal block), and the
+SMTP provider and domain (from P5-05). Buying a domain, creating SMTP or other accounts and
+opening sign-ups need the user's explicit permission; the user creates the accounts.
 
 | Task | What | Tests |
 | --- | --- | --- |
@@ -253,13 +272,19 @@ Supabase project and the deployment needs the user's explicit permission (CLAUDE
 | **P5-02** Notifications | Permission at the first Pomodoro; notification at phase ends; in-page fallback (#69) | Playwright with a fake clock and mocked permission |
 | **P5-03** Heartbeat and forgotten timer | `heartbeats` table and `heartbeat` function; client every 60 s; "End the session there?" suggestion; user decides #1 | pgTAP: self-only; Playwright with a fake clock |
 | **P5-04** Accessibility check | Contrast rules with a tool (UI_UX.md §6.2), keyboard focus, reduced motion, 44 px targets, 1024 px width; list and fix findings | Playwright keyboard-only run of the main flows |
-| **P5-05** Hosting and deployment | User decides #9; hosted project (with permission); migrations pushed; Realtime public access off; email confirmation off; JWT 1 hour; SPA with fallback | SECURITY.md §3.4 setup checks on the hosted project |
-| **P5-06** Release check | Full Vitest, pgTAP and Playwright runs; smoke test on the hosted app with two users | Report with results |
+| **P5-05** Launch research | SMTP provider for Supabase Auth (free tier, limits, deliverability); domain requirement (sending domain with SPF/DKIM, the app's own domain on Cloudflare); costs. Report only, with sources; the user decides | — (report with sources) |
+| **P5-06** Custom SMTP and email confirmation | Domain and SMTP set up by the user (with Claude's steps); SMTP in Supabase Auth; email confirmation on; TR and EN email texts; "check your email" screen | Playwright with the local stack's mail catcher (Mailpit): sign up → confirm → sign in; an unconfirmed user cannot sign in; manual check on the hosted project |
+| **P5-07** Abuse limits | Per-user limits in the database (chat inserts move into a function, S1); Auth hardening (password rules, bot protection, S2); the removal block (#48, I3); Realtime quota (T6) reviewed | pgTAP: limits and the removal block |
+| **P5-08** Browser hardening | Security headers on Cloudflare (Content-Security-Policy, Referrer-Policy, X4); invite token removed from the address bar after it is read, no referrer (I4) | Playwright: headers present; token gone from the URL |
+| **P5-09** Privacy and legal review | #32: privacy notice, legal requirements, age policy; what must exist before the launch (e.g. account deletion). Report; the user decides | — (report with sources) |
+| **P5-10** Public launch | Full Vitest, pgTAP and Playwright runs; every 🚀 item in SECURITY.md done or accepted by the user; sign-ups opened with email confirmation (with the user's permission); smoke test with a new user on the hosted app | Report with results |
 
 **Acceptance criteria:**
 
 - All tests pass; the SECURITY.md §3.4 checks pass on the hosted project.
-- Two friends can sign up on the hosted app, join a room by link and study together.
+- A new user can sign up only with a confirmed email address, then join a room by link
+  and study with friends.
+- Every 🚀 item in SECURITY.md is done or explicitly accepted by the user; #32 is decided.
 - The definition of done holds.
 
 ---
@@ -272,9 +297,6 @@ Not scheduled; each needs its own decision or design first.
   §8).
 - Later cats and their unlock rules (#65); eyes-slot items; outfit slot; cat room.
 - Cooperative room goal (#26); ambient sounds and themes (#28).
-- 🚀 Before a public launch: custom SMTP and email confirmation, rate limits, security
-  headers, Auth hardening (ADR-0027); member removal block (#48); privacy and legal review
-  (#32).
 
 ---
 
@@ -292,15 +314,15 @@ nothing that blocks Phase 1, and the user approves the roadmap.
 
 | # | Topic | Needed by |
 | --- | --- | --- |
-| 78 | Where the app runs before hosting, with real data (Proposed) | Start of Phase 1 (P1-01), before real data exists |
+| 78 | Where the app runs before hosting, with real data (Proposed) | Resolved in task 013 (ADR-0030) |
 | 13 | Member-limit upper bound | Phase 3 (P3-02) |
 | 14 | Lowering the limit below the member count | Phase 3 (P3-03) |
 | 15 | Per-user room limit | Phase 3 (P3-02) |
 | 27 | Room ranking | Phase 3 (P3-07) |
 | 1 | Heartbeat gap threshold | Phase 5 (P5-03) |
-| 9 | Hosting | Phase 5 (P5-05) |
+| 9 | Hosting | Resolved in task 013-v2 (ADR-0030: Cloudflare Workers) |
 
 - **Not needed for Phases 1–5:** #8 (state library, only if needed), #26, #28, #32, #48,
-  #65.
+  #65. (Task 013-v2: #32 and #48 are now needed in Phase 5, ADR-0031.)
 - **Roadmap approved** by the user (task 012-v2). **Phase 0 is complete.** Phase 1 starts
   with P1-01.

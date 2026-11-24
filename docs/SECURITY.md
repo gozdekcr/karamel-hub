@@ -10,9 +10,9 @@ Supabase and PostgreSQL come from the official pages in [Sources](#sources) (rea
 
 ## Context and priorities
 
-- The app is **not being released publicly now**; a **group of friends** will use it
-  (CURRENT_STATE "Release"). Sign-up is technically public: anyone who finds the URL can
-  create an account (CURRENT_STATE "Users").
+- In **Phases 1–4** a **group of friends** uses the app on the hosted project. After they
+  have signed up, the user **turns off new sign-ups** (S6). In **Phase 5** the app opens to
+  the public with email-confirmed sign-up (ADR-0031, CURRENT_STATE "Release").
 - Cheating is not a design goal (CURRENT_STATE): a user inflating their **own** study time
   or coins is not a threat. A user reading or changing **someone else's** data is.
 - **Priority** in the tables is for the friend-group stage:
@@ -21,7 +21,8 @@ Supabase and PostgreSQL come from the official pages in [Sources](#sources) (rea
   - **Medium** — matters, but needs an unusual mistake or a hostile user.
   - **Low** — unlikely among friends.
 - 🚀 **Before public launch** marks items that only become important when strangers can
-  use the app. They are not needed for the friend-group stage.
+  use the app. They are not needed for the friend-group stage; they are done in Phase 5,
+  before sign-ups open to the public (ADR-0031, ROADMAP.md P5-05 … P5-10).
 
 Status values: **Covered** (the design already handles it) · **Open** (a mitigation must
 be done in Phase 1, or 🚀 before public launch) · **Accepted limitation** (known, see §2).
@@ -104,7 +105,7 @@ be done in Phase 1, or 🚀 before public launch) · **Accepted limitation** (kn
 | X1 | Script in a chat message, display name, room name or course name | Session token stolen from the browser, actions as the victim | React escapes values in JSX by default ("React DOM escapes any values embedded in JSX"). User text is always rendered as text; **`dangerouslySetInnerHTML` is never used for user content** (React: risk of XSS "if it's based on user data"). Links in chat are plain text | ADR-0019 | High | Open (Phase 1 rule) |
 | X2 | Oversized or malformed input | Broken layout, large rows, Realtime load | Zod validates input in `data/` before it is sent (ADR-0015); the database enforces length limits: display name 1–30, room name 1–50, message 1–1,000 characters (#53) | ADR-0015; DATABASE.md §3 | Medium | Covered |
 | X3 | Client-side validation bypassed (direct API calls) | Invalid data stored | Zod is a convenience; the database `CHECK` constraints and function checks are the real limits | DATABASE.md §3 | Medium | Covered |
-| X4 | Missing browser security headers (Content-Security-Policy, etc.) | XSS has more impact | 🚀 Set headers when hosting is chosen | ADR-0027; OPEN_QUESTIONS #9 | Low · 🚀 | Open (🚀) |
+| X4 | Missing browser security headers (Content-Security-Policy, etc.) | XSS has more impact | 🚀 Set headers on Cloudflare in Phase 5 (P5-08) | ADR-0027; OPEN_QUESTIONS #9 | Low · 🚀 | Open (🚀) |
 
 ### 1.7 Spam, rate limits and accounts
 
@@ -115,6 +116,7 @@ be done in Phase 1, or 🚀 before public launch) · **Accepted limitation** (kn
 | S3 | Room creation or join spam | Many rooms or channels per user | Upper bound for the member limit (#13) and a per-user room limit (#15) are still open | ADR-0012, ADR-0017 | Low · 🚀 | Open (#13, #15) |
 | S4 | Accounts with someone else's email (no verification) | Impersonation by email address | Friend group: email confirmation **off** (ADR-0027), because the built-in email service "will refuse to deliver messages to addresses that are not part of the project's team" and sends about 2 per hour; 🚀 before launch — custom SMTP and confirmation **on**. Supabase warns: "Do not disable email confirmations under pressure" | ADR-0027 | Low · 🚀 | Accepted for friends; Open (🚀) |
 | S5 | Display name impersonation (a friend picks another friend's name) | Confusion inside a room | Friends know each other; not handled | — | Low | Accepted (not listed in §2; social, not technical) |
+| S6 | A stranger finds the URL and signs up during the friend stage | An unknown account with an unconfirmed email (it sees only its own data; rooms need an invite link) | The URL is shared with friends only; once they have signed up, the user turns off new sign-ups on the hosted project (Supabase dashboard, Auth settings). The CLI's `config.toml` documents the switch (`enable_signup`): "Existing users can still sign in." Sign-ups reopen only in Phase 5, with email confirmation | ADR-0031 | Medium | Open (P1-03b, P1-14) |
 
 ### 1.8 Other
 
@@ -240,8 +242,11 @@ signed-in user, as a second user, and as `anon`.
 - [ ] The new key format is used: the frontend has only the publishable key
       (`sb_publishable_…`); legacy `anon` / `service_role` keys are not used (K4, ADR-0027).
 - [ ] No `dangerouslySetInnerHTML` with user content (a lint rule or a code search) (X1).
-- [ ] `pgcrypto` (`gen_random_bytes`) is available on the local stack and the hosted project
-      **[not verified]** (I1, ADR-0027).
+- [ ] `pgcrypto` (`gen_random_bytes`) is available on the local stack (verified in P1-01,
+      task 013) and the hosted project (checked in P1-03b) (I1, ADR-0027).
+- [ ] New sign-ups are turned off on the hosted project once the friends have signed up,
+      and a new sign-up is refused; the local stack keeps sign-ups on for tests (S6,
+      ADR-0031, P1-14).
 
 ---
 

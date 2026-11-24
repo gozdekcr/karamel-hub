@@ -1,6 +1,6 @@
 # Karamel-hub — current state (single source of truth)
 
-Last updated: 2026-11-23 · **Phase 0 complete** (research, architecture, planning) · Next: Phase 1 ([ROADMAP.md](ROADMAP.md)) · No application code yet
+Last updated: 2026-11-24 · **Phase 1 in progress** ([ROADMAP.md](ROADMAP.md)); P1-01 start checks done · No application code yet
 
 If this document conflicts with another document, this document and the code win.
 Undecided items live in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
@@ -15,7 +15,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Topic | Decision |
 | --- | --- |
 | Platform | Desktop browser only. No mobile app or PWA for now. |
-| Users | Multi-user with public sign-up. Solo use is fully supported; rooms are optional. |
+| Users | Multi-user. Until the Phase 5 launch only the user's friends (new sign-ups closed after they sign up); public sign-up with email confirmation from Phase 5 (ADR-0031). Solo use is fully supported; rooms are optional. |
 | Primary users | The design is driven by university students who want to study together from different places. Goal: study-group members motivate each other remotely. |
 | Rooms | Persistent while they have members. A user can join several rooms. Anyone with the invite link can join. All members can see and share the link; owners regenerate it. |
 | Room owners | A room can have several owners; any owner can make a member an owner and remove or demote other owners (like WhatsApp group admins). Permission table in ADR-0014. |
@@ -39,20 +39,21 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | Goals | A daily and a weekly goal in minutes; optional, no default; private (owner-only `user_settings`, with timezone and language). No history: past days are evaluated against the current goal. |
 | Profiles | `profiles` holds only the display name, which room members can read. |
 | Account deletion | **Later phase.** The user's sessions, chat messages, membership history and all personal data are deleted; room statistics shrink accordingly. The creator role passes to the oldest owner, else the oldest member; an empty room is deleted. |
-| Release | The app is not being released publicly now. Privacy, legal requirements and the age policy are reviewed before a public release (OPEN_QUESTIONS #32). |
+| Release | Phases 1–4: friends only, on the hosted project; new sign-ups closed once they have signed up. Phase 5: public launch with email-confirmed sign-up (custom SMTP) after the 🚀 security items; privacy, legal requirements and the age policy are reviewed in Phase 5 (OPEN_QUESTIONS #32). ADR-0031. |
 | Courses and tasks | Owner-only. A session can link to one course and one task (optional). |
 | Session editing | Pauses are clipped to the new range. Times cannot be in the future. A user can delete a finished session; its coins are corrected to 0, rewards already granted stay. |
 | Room chat | Members see the whole history; messages cannot be edited or deleted. Rooms have a required name. Limits: display name 30, room name 50, message 1,000 characters. |
 | Gamification visibility | Cats, items and coins are visible only to their owner. |
 | Timezone and language | Taken from the browser at sign-up; past days use the current timezone. |
-| Email verification | Off for the friend-group stage; turned on with custom SMTP before public launch. |
+| Email verification | Off for the friend-group stage; turned on with custom SMTP in Phase 5, before the public launch (ADR-0031). |
 | Layout | Fixed left menu with the user's dressed Karamel above it; a timer strip (elapsed time + stop) at the top of pages while a session runs. Screens and flows in [UI_UX.md](UI_UX.md). |
 | Pomodoro | Fixed 25 minutes of work and 5 minutes of break. The break starts automatically (stored as a pause from the exact phase end); the next work phase starts when the user clicks "Continue". Browser notification at phase ends; permission asked at the first Pomodoro. |
 | First login | Sign-up → display name → meet Karamel → daily goal (can be skipped) → Home. |
 | Home | Greeting with coin and streak badges; timer card (2 columns, dark caramel `#8E5222`) with goal rings; My rooms, Today's tasks (open + done today), monthly study calendar (4 tones, today framed); achievements strip. |
-| Visual direction | Pastel, low contrast, large rounded cards (26 px), ring charts, personal greeting. Palette from Karamel (UI_UX.md §6.2); fonts Fredoka (headings) and Nunito (body), self-hosted; clickable areas ≥ 44 px; minimum window width 1024 px. Contrast rules, calendar tones, errors (pink + icon), reduced motion and visible focus in UI_UX.md §6. |
+| Visual direction | Pastel, low contrast, large rounded cards (26 px), ring charts, personal greeting. Palette from Karamel (UI_UX.md §6.2); one font, Nunito, self-hosted (headings 700–800, body 400–800, timer digits included; Fredoka removed because it lacks ğ Ğ İ ş Ş); clickable areas ≥ 44 px; minimum window width 1024 px. Contrast rules, calendar tones, errors (pink + icon), reduced motion and visible focus in UI_UX.md §6. |
 | Gamification later | Four more cats (art in `docs/assets/`), eyes-slot items, outfit slot, cat room, 150-hour and 30-day streak cats. |
-| Phase order | 1 Core → 2 Tracking → 3 Rooms → 4 Karamel → 5 Polish and going live (for the friend group); account deletion and 🚀 public-launch items come later. The user uses the app from Phase 1; Phase 4 includes a one-time backfill of coins and achievements. Tasks in [ROADMAP.md](ROADMAP.md). |
+| Phase order | 1 Core → 2 Tracking → 3 Rooms → 4 Karamel → 5 Polish and public launch (custom SMTP, email confirmation, 🚀 security items, privacy review); account deletion comes later. The user uses the app from Phase 1; Phase 4 includes a one-time backfill of coins and achievements. Tasks in [ROADMAP.md](ROADMAP.md). |
+| Where the app runs | **A hosted Supabase project from Phase 1**; the user's friends can use the app from Phase 1, so its data is real and the hosted database is never reset. Local development and tests stay on the local stack. The frontend runs on **Cloudflare Workers with static assets**. Hosted setup (P1-03b) and deployment (P1-14) are Phase 1 tasks; the hosted data is dumped before each `db push` (ADR-0030). |
 
 ## Architecture decisions
 
@@ -87,13 +88,16 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0027](decisions/0027-security-baseline.md) | Security baseline: email confirmation off until launch; 32-byte invite tokens; function placement and grants; 1-hour JWT; publishable key only | Accepted |
 | [0028](decisions/0028-first-version-catalog.md) | First version: one cat (Karamel); 13 items in head and neck slots; placement data in the catalog | Accepted |
 | [0029](decisions/0029-phase-1-folder-structure.md) | Phase 1 folder structure (`src/app`, `shared/ui`, art in `public/art/`); shared Vitest/pgTAP test cases | Accepted |
+| [0030](decisions/0030-phase-1-environment.md) | Node.js 26 LTS; Supabase CLI as an npm dev dependency; hosted Supabase project from Phase 1; frontend on Cloudflare Workers | Accepted |
+| [0031](decisions/0031-release-path.md) | Phases 1–4 friends only with sign-ups closed; public launch in Phase 5 with custom SMTP, email confirmation and the 🚀 security items | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
 Accepted: Supabase (ADR-0001), TanStack Query (ADR-0009), i18next + react-i18next, React
 Router in declarative mode, Recharts, Zod (ADR-0015), Supabase CLI, Vitest, Playwright,
-pgTAP (ADR-0018), React, TypeScript, Vite (ADR-0019).
-Still open: hosting, deferred until the release stage (OPEN_QUESTIONS #9).
+pgTAP (ADR-0018), React, TypeScript, Vite (ADR-0019), Node.js 26 LTS and the Supabase CLI
+as an npm dev dependency, Cloudflare Workers with static assets for the frontend (ADR-0030).
+Still open: the SMTP provider and domain (Phase 5 research, ADR-0031).
 
 ## Phase 0 progress (complete)
 

@@ -35,3 +35,5 @@ been committed yet may be edited directly. Use [0000-template.md](0000-template.
 | [0027](0027-security-baseline.md) | Security baseline for the friend-group stage | Accepted |
 | [0028](0028-first-version-catalog.md) | First-version cat and item catalog | Accepted |
 | [0029](0029-phase-1-folder-structure.md) | Phase 1 folder structure and shared test cases | Accepted |
+| [0030](0030-phase-1-environment.md) | Phase 1 environment: Node.js, Supabase CLI, hosted project from Phase 1, Cloudflare | Accepted |
+| [0031](0031-release-path.md) | Release path: friends only with sign-ups closed, public launch in Phase 5 | Accepted |

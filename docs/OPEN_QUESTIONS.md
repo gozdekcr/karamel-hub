@@ -8,18 +8,15 @@ in ADRs stay valid.
 | --- | --- | --- | --- |
 | 1 | Heartbeat "large gap" threshold (the interval starts at 60 s, ADR-0016) | ADR-0007, ADR-0016 | Needs testing with real usage |
 | 8 | Client-only global state library (if ever needed) | ADR-0009 | None until needed |
-| 9 | Frontend hosting | TECH_RESEARCH §4 | **Deferred until the release stage (user decision).** Research proposal on record: Cloudflare Workers with static assets; alternative Vercel Hobby |
 | 13 | Upper bound for a room's member limit | ADR-0012, 0006 | Owners choose the limit; what is the maximum allowed value? |
 | 14 | What happens if an owner lowers the limit below the current member count? | ADR-0012 | E.g. refuse the change, or allow it and only block new joins |
 | 15 | Per-user room limit (how many rooms one user can join or own) | ADR-0014, 0006, ADR-0017 | Each room is one Presence channel for the user. Supabase free plan allows 100 channels per connection — a hard ceiling |
 | 26 | Should rooms have a cooperative weekly goal (total or shared time target) with no penalty? | ADR-0005, PRODUCT_RESEARCH.md | **Proposed: yes, optional per room.** Builds on room total/shared time; avoids collective punishment (Forest group focus) |
 | 27 | Should rooms show a ranking of members by study time? | ADR-0005, PRODUCT_RESEARCH.md | **Proposed: no ordered ranking.** YPT ranks users; ranking adds pressure among friends. Per-member time is already shown |
 | 28 | Ambient sounds and visual themes (as in Flocus)? | PRODUCT_RESEARCH.md | **Proposed: later, low priority** |
-| 32 | Before public release: review privacy and legal requirements, including the age policy | CURRENT_STATE | **Out of scope for now.** To be done before the app is released publicly |
-| 41 | Node.js version for development and CI | ADR-0018, ADR-0019 | **To be decided at the start of Phase 1 (user decision).** Must satisfy Vitest (≥ 22.12) and Playwright (22, 24 or 26). Current LTS status not checked |
-| 48 | How does removing a member prevent rejoining: a ban record or a link rotation? | ADR-0014, ADR-0023 | **Deferred (user decision).** No table is designed for it in `DATABASE.md`. Since all members see the link (ADR-0023), rotation alone does not keep a removed user out |
+| 32 | Before public release: review privacy and legal requirements, including the age policy | CURRENT_STATE, ADR-0031 | **Needed in Phase 5** (P5-09), before the public launch (ADR-0031) |
+| 48 | How does removing a member prevent rejoining: a ban record or a link rotation? | ADR-0014, ADR-0023, ADR-0031 | **Deferred (user decision); needed in Phase 5** (P5-07), before the public launch. No table is designed for it in `DATABASE.md`. Since all members see the link (ADR-0023), rotation alone does not keep a removed user out |
 | 65 | Which later cat uses which unlock rule (10 h, 50 h, 3-day, 7-day longest streak)? | ADR-0020, ADR-0028 | Not needed for the first version (one cat). Later cats: `grey-shorthair`, `orange-white`, `white-longhair`, `grey-white-longhair` |
-| 78 | Where does the app run in Phases 1–4, now that the user uses it from Phase 1 with real data? | ROADMAP.md, #9, ADR-0018 | **Proposed:** Phases 1–2 on the local Supabase stack, used by the user alone; real data is kept (additive migrations, no resets, a backup before each migration); hosting (#9) is decided before Phase 3, because rooms need friends on other computers. Creating a hosted project needs the user's permission |
 
 Resolved: #2 → ADR-0011 (sessions never overlap). #4 → ADR-0012 (room member limit).
 #7, #33, #34 → ADR-0015 (i18next + react-i18next, React Router, Recharts). #16, #35, #37 →
@@ -52,7 +49,7 @@ item type and two factors, hood openings; computed once when the art is added).
 #25 → UI_UX.md (task 010: the Home study calendar colours days by study time; personal only).
 #67–#74 → UI_UX.md (accepted in task 010-v2): today's tasks = open + done today; Pomodoro
 break starts automatically, next work on "Continue"; notification permission at the first
-Pomodoro; streak ring = today's progress to 25 min; palette, Fredoka + Nunito, 26 px corners,
+Pomodoro; streak ring = today's progress to 25 min; palette, Fredoka + Nunito (fonts changed in task 013-v2: Nunito only), 26 px corners,
 44 px targets (#71); unequip by clicking again, achievement progress; room settings panel,
 `get_invite_room_name`; 1024 px minimum width, no strip on Home.
 #75 → UI_UX.md §6.2, §6.5 (accepted in task 010-v3): `#8E5222` behind normal-size text on
@@ -61,6 +58,10 @@ calendar tones with minutes in a tooltip, errors = pink + icon, reduce motion, v
 #76, #77 → ADR-0029 (Phase 1 folder structure; shared Vitest/pgTAP test cases).
 #12 → ROADMAP.md (task 012: Core → Tracking → Rooms → Karamel → Polish and going live;
 account deletion after Phase 5).
+#41 → ADR-0030 (Node.js 26 LTS, task 013). #78 → ADR-0030 (task 013: a hosted Supabase project from Phase 1, friends use the app from Phase 1; the local-only proposal was not accepted).
+#9 → ADR-0030 (task 013-v2: Cloudflare Workers with static assets). #79 → ROADMAP.md (task 013-v2: P1-03b Hosted
+project, P1-14 Deployment, backup before each `db push`; Phase 5 rewritten for the public launch, ADR-0031).
+#80, #81 → UI_UX.md §6.3 (task 013-v2: Nunito everywhere, headings 700–800, timer digits included; Fredoka removed).
 #29 → CURRENT_STATE "Primary users" (university students studying together remotely).
 #30 → CURRENT_STATE "Primary users" (YKS students removed). The 18+ rule decided then was
 removed later (task 006).

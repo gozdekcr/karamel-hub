@@ -39,7 +39,7 @@
 | Phase | Scope | Status |
 | --- | --- | --- |
 | 0 | Research, architecture, database, security, gamification, UI/UX, roadmap (docs only) | **Done** (2026-11-23) |
-| 1–5 | Defined in [`ROADMAP.md`](ROADMAP.md) (approved) | Next: Phase 1 |
+| 1–5 | Defined in [`ROADMAP.md`](ROADMAP.md) (approved) | Phase 1 in progress (started 2026-11-24) |
 
 ### Phase 0 order (completed)
 

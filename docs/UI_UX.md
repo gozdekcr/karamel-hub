@@ -482,14 +482,16 @@ tooltip).
    colour alone; at normal text size the message itself is in the text colour `#4A3426`,
    next to the pink icon.
 
-### 6.3 Font (decided, task 010-v2)
+### 6.3 Font (decided, task 010-v2; changed in task 013-v2)
 
-- **Headings:** **Fredoka**, weights 500–600.
-- **Body:** **Nunito**, weights 400–800.
-- Both **self-hosted** (no third-party font service).
-- **Turkish characters** (ç ğ ı İ ö ş ü) are **verified in Phase 1**.
-- Timer digits should not jump while counting: whether the fonts have tabular digits is
-  checked in Phase 1 **[not verified]**.
+- **One font everywhere: Nunito**, **self-hosted** (no third-party font service).
+- **Headings:** weights **700–800**. **Body:** weights 400–800.
+- **Timer digits:** Nunito too. Its digits all have the same width (600 units) at every
+  weight, so the timer does not jump; no `tnum` feature is needed (checked in P1-01).
+- **Turkish characters** (ç ğ ı İ ö ş ü and capitals): all present in Nunito (checked in
+  P1-01 on the Google Fonts file, version 3.602).
+- Fredoka (the earlier heading font) was removed: it has no ğ Ğ İ ş Ş (task 013,
+  OPEN_QUESTIONS #80, #81).
 
 ### 6.4 Sizes (decided, task 010-v2)
 
