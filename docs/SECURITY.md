@@ -178,11 +178,14 @@ signed-in user, as a second user, and as `anon`.
 
 ### 3.1 Whole schema
 
-- [ ] Every table in the exposed schema has RLS enabled (R1).
-- [ ] `anon` has no table privileges and cannot execute any function (R11, F3).
+- [x] Every table in the exposed schema has RLS enabled (R1). Test since P1-03
+      (`supabase/tests/database_base_test.sql`); it covers every later table automatically.
+- [ ] `anon` has no table privileges and cannot execute any function (R11, F3). P1-03: default
+      privileges and tests for `public` and `private`; the per-table check comes with the tables.
 - [ ] Every `security definer` function has `search_path = ''` (F2).
 - [ ] No function is executable by `PUBLIC`; only API functions are executable by
-      `authenticated` (F3, F4).
+      `authenticated` (F3, F4). P1-03: no `PUBLIC`/`anon` execute in `public` and `private`
+      (default privileges + test); the API-function list is checked when the functions exist.
 - [ ] RLS helper functions and the reward check live in the non-exposed schema (F4, ADR-0027).
 - [ ] The Realtime publication contains exactly the tables in DATABASE.md §6 (T4).
 

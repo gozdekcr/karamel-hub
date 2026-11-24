@@ -1,6 +1,6 @@
 # Karamel-hub — current state (single source of truth)
 
-Last updated: 2026-11-24 · **Phase 1 in progress** ([ROADMAP.md](ROADMAP.md)); P1-01 start checks and P1-02 scaffold done · No features yet
+Last updated: 2026-11-24 · **Phase 1 in progress** ([ROADMAP.md](ROADMAP.md)); P1-01 … P1-03 done (start checks, scaffold, database base) · No features yet
 
 If this document conflicts with another document, this document and the code win.
 Undecided items live in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).

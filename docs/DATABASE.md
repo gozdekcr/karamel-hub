@@ -730,7 +730,9 @@ history grows.
 - **Helper functions for RLS:** checks like "is the reader currently in a room with this
   user" are needed by several policies; they are written as small `security definer`
   helper functions to avoid recursive RLS on `room_memberships` (details in
-  `SECURITY.md`).
+  `SECURITY.md`). They live in the non-exposed schema **`private`**, created in P1-03
+  (`supabase/migrations/…_database_base.sql`); `authenticated` has `USAGE` on it, and each
+  function needs its own `EXECUTE` grant.
 - **Performance:** streak and reward checks scan the user's sessions on every end or edit.
   This is fine for the expected scale (ADR-0017); indexes on `sessions(user_id,
   started_at)` and `room_memberships(room_id)` are planned. Revisit if it becomes slow.

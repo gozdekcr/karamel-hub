@@ -22,6 +22,9 @@ npm run typecheck                 # TypeScript
 npm run lint                      # oxlint, including the import rules
 npm test                          # Vitest unit tests
 npm run test:e2e                  # Playwright end-to-end tests
+npm run db:start                  # local Supabase in Docker (Docker Desktop must run)
+npm run test:db                   # pgTAP database tests (needs db:start)
+npm run db:stop                   # stop the local Supabase
 ```
 
 ## License
