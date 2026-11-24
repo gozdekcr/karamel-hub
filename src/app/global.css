@@ -1,0 +1,15 @@
+/* One font everywhere: Nunito, self-hosted through @fontsource-variable/nunito (UI_UX.md §6.3).
+   Palette and type tokens come in P1-06. */
+:root {
+  font-family: 'Nunito Variable', sans-serif;
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 800;
+}

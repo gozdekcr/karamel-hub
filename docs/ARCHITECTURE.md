@@ -93,6 +93,12 @@ Rules that cross layers:
   (ADR-0009, OPEN_QUESTIONS #8).
 - Routing is React Router in declarative mode; data loading stays in TanStack Query, not in
   router loaders (ADR-0015).
+- **How the import rules are enforced (P1-02):** imports that leave the current folder use
+  the `@/` alias (`@/domain/timer/…`), never `../`; `.oxlintrc.json` then forbids the
+  imports in the "May **not** import" column with `no-restricted-imports`, and gives each
+  feature one block that forbids other features. `src/architecture.test.ts` fails if a
+  feature folder has no block. Lint tool: oxlint (ADR-0032; ESLint revisited in OPEN_QUESTIONS
+  #82).
 
 ---
 
@@ -301,8 +307,8 @@ Notes on the proposal:
 - **Shared test cases** (ADR-0024 exceptions: `minutes ÷ 2`, room shared time): one
   data file read by Vitest, and the same cases turned into a pgTAP test by a script in
   `tools/` (ADR-0029).
-- Whether `supabase test db` reads pgTAP files from `supabase/tests/` by default is
-  **[not verified]**; check when the project is set up.
+- `supabase test db` reads pgTAP files from `supabase/tests/` (verified in P1-01, task
+  013).
 
 ---
 

@@ -281,7 +281,7 @@ Loaded by a migration (values from ADR-0020 and ADR-0021):
 | `items` | head: `red-gingham-bow` easy 50 · `pink-visor` easy 50 · `yellow-bucket-hat` easy 50 · `denim-cap` medium 150 · `plaid-beret` medium 150 · `plaid-bucket-hat` medium 200 · `frog-hood` hard 300 · `bunny-hood` hard 300 · `strawberry-bonnet` hard 350 · `sunflower-bonnet` hard 400; neck: `red-gingham-bandana` easy 50 · `bear-plaid-bandana` easy 50 · `lace-collar` medium 250 (ADR-0028) |
 | `achievements` | `first_step` session_minutes 25, 20 coins · `team_player` rooms_joined 1, 30 · `better_together` room_shared_minutes 60, 50 · `marathon` session_minutes 180, 50 · `star_of_the_week` week_minutes 600, 75 |
 
-Cat and item keys are the asset file names (`docs/assets/`, ADR-0028). Achievement keys
+Cat and item keys are the asset file names (`public/art/`, formerly `docs/assets/`; ADR-0028, ADR-0029). Achievement keys
 are a naming suggestion only. The `total_minutes` and `longest_streak_days` unlock types
 stay in the schema for later cats; no first-version cat uses them (ADR-0028).
 

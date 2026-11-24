@@ -1,6 +1,6 @@
 # Karamel-hub — current state (single source of truth)
 
-Last updated: 2026-11-24 · **Phase 1 in progress** ([ROADMAP.md](ROADMAP.md)); P1-01 start checks done · No application code yet
+Last updated: 2026-11-24 · **Phase 1 in progress** ([ROADMAP.md](ROADMAP.md)); P1-01 start checks and P1-02 scaffold done · No features yet
 
 If this document conflicts with another document, this document and the code win.
 Undecided items live in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
@@ -51,7 +51,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | First login | Sign-up → display name → meet Karamel → daily goal (can be skipped) → Home. |
 | Home | Greeting with coin and streak badges; timer card (2 columns, dark caramel `#8E5222`) with goal rings; My rooms, Today's tasks (open + done today), monthly study calendar (4 tones, today framed); achievements strip. |
 | Visual direction | Pastel, low contrast, large rounded cards (26 px), ring charts, personal greeting. Palette from Karamel (UI_UX.md §6.2); one font, Nunito, self-hosted (headings 700–800, body 400–800, timer digits included; Fredoka removed because it lacks ğ Ğ İ ş Ş); clickable areas ≥ 44 px; minimum window width 1024 px. Contrast rules, calendar tones, errors (pink + icon), reduced motion and visible focus in UI_UX.md §6. |
-| Gamification later | Four more cats (art in `docs/assets/`), eyes-slot items, outfit slot, cat room, 150-hour and 30-day streak cats. |
+| Gamification later | Four more cats (draft art kept on the user's computer, deliberately not in the repo; ADR-0028), eyes-slot items, outfit slot, cat room, 150-hour and 30-day streak cats. |
 | Phase order | 1 Core → 2 Tracking → 3 Rooms → 4 Karamel → 5 Polish and public launch (custom SMTP, email confirmation, 🚀 security items, privacy review); account deletion comes later. The user uses the app from Phase 1; Phase 4 includes a one-time backfill of coins and achievements. Tasks in [ROADMAP.md](ROADMAP.md). |
 | Where the app runs | **A hosted Supabase project from Phase 1**; the user's friends can use the app from Phase 1, so its data is real and the hosted database is never reset. Local development and tests stay on the local stack. The frontend runs on **Cloudflare Workers with static assets**. Hosted setup (P1-03b) and deployment (P1-14) are Phase 1 tasks; the hosted data is dumped before each `db push` (ADR-0030). |
 
@@ -90,6 +90,7 @@ people see each other's study time in realtime. A cat-collection system rewards 
 | [0029](decisions/0029-phase-1-folder-structure.md) | Phase 1 folder structure (`src/app`, `shared/ui`, art in `public/art/`); shared Vitest/pgTAP test cases | Accepted |
 | [0030](decisions/0030-phase-1-environment.md) | Node.js 26 LTS; Supabase CLI as an npm dev dependency; hosted Supabase project from Phase 1; frontend on Cloudflare Workers | Accepted |
 | [0031](decisions/0031-release-path.md) | Phases 1–4 friends only with sign-ups closed; public launch in Phase 5 with custom SMTP, email confirmation and the 🚀 security items | Accepted |
+| [0032](decisions/0032-lint-oxlint.md) | Lint with oxlint while on TypeScript 7 (`@/` imports, one lint block per feature); ESLint revisited later (#82) | Accepted |
 
 ## Tech under consideration (not final unless in an Accepted ADR)
 
@@ -97,6 +98,11 @@ Accepted: Supabase (ADR-0001), TanStack Query (ADR-0009), i18next + react-i18nex
 Router in declarative mode, Recharts, Zod (ADR-0015), Supabase CLI, Vitest, Playwright,
 pgTAP (ADR-0018), React, TypeScript, Vite (ADR-0019), Node.js 26 LTS and the Supabase CLI
 as an npm dev dependency, Cloudflare Workers with static assets for the frontend (ADR-0030).
+Pinned in P1-02 (exact versions in `package.json`): React 19.3.1, TypeScript 7.0.2, Vite 8.3.8,
+TanStack Query 5.108.4, React Router 8.5.2, i18next 27.2.7, react-i18next 18.0.3, Vitest 5.1.1,
+Playwright 1.65.1, Supabase CLI 3.3.0. Lint: **oxlint** 1.95.0 with TypeScript 7 (ADR-0032); ESLint is
+revisited when typescript-eslint supports TypeScript 7 (OPEN_QUESTIONS #82). CI: GitHub Actions runs
+typecheck, lint, Vitest and build on pushes to `main` and on pull requests (Playwright from P1-05).
 Still open: the SMTP provider and domain (Phase 5 research, ADR-0031).
 
 ## Phase 0 progress (complete)
@@ -109,7 +115,7 @@ Still open: the SMTP provider and domain (Phase 5 research, ADR-0031).
 | Technical research | Reviewed; decisions in ADR-0015 … 0019, hosting deferred ([TECH_RESEARCH.md](TECH_RESEARCH.md)) |
 | Database design | Draft ([DATABASE.md](DATABASE.md)); #49–#58 accepted in task 007-v2 |
 | Security | Draft ([SECURITY.md](SECURITY.md)); decisions in ADR-0027 |
-| Gamification design | Done (ADR-0020 … 0022, ADR-0028, [GAMIFICATION.md](GAMIFICATION.md)); art and placement rules in `docs/assets/`; placement re-implemented and tested in Phase 1 |
+| Gamification design | Done (ADR-0020 … 0022, ADR-0028, [GAMIFICATION.md](GAMIFICATION.md)); art in `public/art/`, placement rules in `docs/assets/README.md`; placement re-implemented and tested in Phase 1 |
 | UI/UX | Decided ([UI_UX.md](UI_UX.md)) |
 | Architecture overview | Done ([ARCHITECTURE.md](ARCHITECTURE.md)); folder structure in ADR-0029 |
 | Roadmap (Phase 1+) | Approved ([ROADMAP.md](ROADMAP.md)) |

@@ -1,0 +1,89 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc", "import", "vitest"],
+  "categories": {
+    "correctness": "error"
+  },
+  "ignorePatterns": ["dist/**", "playwright-report/**", "test-results/**"],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    "import/no-cycle": "error"
+  },
+  "overrides": [
+    {
+      // Import rules (ADR-0002, ADR-0029, ARCHITECTURE.md §2). Imports that leave the current folder use '@/…', so the layer rules below can see them. Every override repeats the parent-import ban because an override replaces the rule's options.
+      "files": ["src/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "regex": "^\\.\\./", "message": "Use '@/…' for imports outside the current folder (ADR-0029)." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/domain/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "regex": "^\\.\\./", "message": "Use '@/…' for imports outside the current folder (ADR-0029)." },
+              { "regex": "^@/(app|data|features|shared|locales)(/|$)", "message": "domain/ imports nothing outside domain/ (ADR-0002)." },
+              { "regex": "^(react|react-dom|react-router|react-i18next|i18next)(/|$)", "message": "domain/ is pure TypeScript: no React or i18n (ADR-0002)." },
+              { "regex": "^@(supabase|tanstack)/", "message": "domain/ is pure TypeScript: no Supabase or TanStack (ADR-0002)." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/data/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "regex": "^\\.\\./", "message": "Use '@/…' for imports outside the current folder (ADR-0029)." },
+              { "regex": "^@/(app|features|shared)(/|$)", "message": "data/ may import only domain/ (ARCHITECTURE.md §2)." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/shared/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "regex": "^\\.\\./", "message": "Use '@/…' for imports outside the current folder (ADR-0029)." },
+              { "regex": "^@/(app|data|features)(/|$)", "message": "shared/ui has no data access and no feature imports (ADR-0029)." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      // One block per feature: a feature may not import another feature (ADR-0029). src/architecture.test.ts fails if a feature folder has no block here.
+      "files": ["src/features/home/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "regex": "^\\.\\./", "message": "Use '@/…' for imports outside the current folder (ADR-0029)." },
+              { "regex": "^@/app(/|$)", "message": "Features do not import the app shell (ADR-0029)." },
+              { "group": ["@/features/**", "!@/features/home/**"], "message": "Features do not import other features (ADR-0029)." }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

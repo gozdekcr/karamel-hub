@@ -17,6 +17,7 @@ in ADRs stay valid.
 | 32 | Before public release: review privacy and legal requirements, including the age policy | CURRENT_STATE, ADR-0031 | **Needed in Phase 5** (P5-09), before the public launch (ADR-0031) |
 | 48 | How does removing a member prevent rejoining: a ban record or a link rotation? | ADR-0014, ADR-0023, ADR-0031 | **Deferred (user decision); needed in Phase 5** (P5-07), before the public launch. No table is designed for it in `DATABASE.md`. Since all members see the link (ADR-0023), rotation alone does not keep a removed user out |
 | 65 | Which later cat uses which unlock rule (10 h, 50 h, 3-day, 7-day longest streak)? | ADR-0020, ADR-0028 | Not needed for the first version (one cat). Later cats: `grey-shorthair`, `orange-white`, `white-longhair`, `grey-white-longhair` |
+| 82 | Switch from oxlint to ESLint, with eslint-plugin-boundaries (folder imports) and a rule against hardcoded UI text (e.g. eslint-plugin-i18next)? | ADR-0032, ADR-0010, ADR-0029 | **Revisit when typescript-eslint supports TypeScript 7** (user decision, task 015-v2). On 2026-11-24 it supports `>=4.8.4 <6.1.0`, and TypeScript 7.0.2 has no JS compiler API (`createProgram` undefined). Then the per-feature lint blocks and `src/architecture.test.ts` could be removed |
 
 Resolved: #2 → ADR-0011 (sessions never overlap). #4 → ADR-0012 (room member limit).
 #7, #33, #34 → ADR-0015 (i18next + react-i18next, React Router, Recharts). #16, #35, #37 →

@@ -49,8 +49,9 @@ used when later cats are added; which cat gets which rule is not decided
 | Total study time | 10 hours, 50 hours |
 | Longest streak | 3 days, 7 days |
 
-Later cats with art in `docs/assets/` (not final quality): `grey-shorthair`,
-`orange-white`, `white-longhair`, `grey-white-longhair`.
+Later cats (draft art, not final quality, kept on the user's computer and deliberately not
+in the repo; ADR-0028): `grey-shorthair`, `orange-white`, `white-longhair`,
+`grey-white-longhair`.
 
 "Total study time" is the sum of all of the user's sessions' study time
 (pauses excluded, ADR-0003), including edited and manually added sessions (ADR-0007).

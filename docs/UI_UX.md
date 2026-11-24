@@ -346,7 +346,7 @@ flowchart TD
 | Karamel | No items owned | Karamel without items; the items list shows prices and how many minutes are needed |
 | Achievements | None earned | All five shown as not yet earned |
 
-Empty states use a small Karamel illustration where it fits (art from `docs/assets/`).
+Empty states use a small Karamel illustration where it fits (art from `public/art/`).
 
 ---
 
@@ -383,7 +383,7 @@ Errors come from database functions as codes mapped to i18n keys (ADR-0010, DATA
   charts, a personal greeting.
 - **Colours from Karamel:** cream background, caramel orange accent, soft brown text,
   small pink accents.
-- **Art:** cat and item images from `docs/assets/`; items placed by the rules in the
+- **Art:** cat and item images from `public/art/`; items placed by the rules in the
   [assets README](assets/README.md#automatic-placement).
 
 ### 6.2 Colour palette (decided, task 010-v2)

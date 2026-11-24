@@ -2,10 +2,13 @@
 
 Source art for cats and cosmetic items. Transparent PNGs.
 
+The images live in **`public/art/`** (moved from `docs/assets/` in P1-02, ADR-0029), so the
+app serves them at `/art/…`. This file stays in `docs/` as their specification.
+
 ## Structure
 
 ```
-docs/assets/
+public/art/
 ├── cats/            one file per cat, 512×512 canvas, feet near the bottom edge
 └── items/
     ├── head/        head slot items
@@ -100,6 +103,13 @@ tall hats are clipped.
 ## Provenance
 
 AI-generated images. Backgrounds were removed and files renamed and cropped by script.
+
+## License
+
+The images in [`public/art/`](../../public/art/) (formerly `docs/assets/`) are **not**
+covered by the repository's MIT License, which applies to the code only
+([`LICENSE`](../../LICENSE)). Copyright (c) 2026 Gözde Kacar. All
+rights reserved. The images were generated with Google Gemini.
 
 ## Known issues
 

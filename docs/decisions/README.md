@@ -37,3 +37,4 @@ been committed yet may be edited directly. Use [0000-template.md](0000-template.
 | [0029](0029-phase-1-folder-structure.md) | Phase 1 folder structure and shared test cases | Accepted |
 | [0030](0030-phase-1-environment.md) | Phase 1 environment: Node.js, Supabase CLI, hosted project from Phase 1, Cloudflare | Accepted |
 | [0031](0031-release-path.md) | Release path: friends only with sign-ups closed, public launch in Phase 5 | Accepted |
+| [0032](0032-lint-oxlint.md) | Lint with oxlint while the project uses TypeScript 7 | Accepted |
